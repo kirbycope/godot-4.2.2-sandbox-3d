@@ -6,9 +6,9 @@ extends CharacterBody3D
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
 @export var player_jump_velocity := 4.5
-@export var player_crouching_speed := 1.0
+@export var player_crouching_speed := 0.75
 @export var player_running_speed := 5.0
-@export var player_walking_speed := 3.0
+@export var player_walking_speed := 2.5
 
 # Note: `@onready` variables are set when the scene is loaded.
 @onready var animation_player = $visuals/AuxScene/AnimationPlayer
@@ -56,39 +56,51 @@ func _physics_process(delta) -> void:
 	
 	# Reset animation lock
 	if !animation_player.is_playing():
-		animation_player.play("Idle")
+		if is_crouching:
+			animation_player.play("Crouching_Idle")
+		elif !is_on_floor():
+			animation_player.play("Falling_Idle")
+		else:
+			animation_player.play("Idle")
 		is_kicking = false
 		is_locked = false
 		is_punching = false
 	
 	# Handle [crouch] button press
 	if Input.is_action_just_pressed("crouch"):
-		if animation_player.current_animation != "Standing_To_Crouched":
-				animation_player.play("Standing_To_Crouched")
-				player_current_speed = player_crouching_speed
-				is_crouching = true
-	# Handle [crouch] button hold
-	elif Input.is_action_pressed("crouch"):
-		if animation_player.current_animation != "Standing_To_Crouched":
-			if animation_player.current_animation != "Crouching_Idle":
-					animation_player.play("Crouching_Idle")
+		animation_player.play("Crouching_Idle")
+		player_current_speed = player_crouching_speed
+		is_crouching = true
+	
 	# Handle [crouch] button release
 	elif Input.is_action_just_released("crouch"):
-		animation_player.play("Crouched_To_Standing")
+		animation_player.play("Idle")
 		player_current_speed = player_walking_speed
 		is_crouching = false
 	
-	# Handle [kick] button press
-	if Input.is_action_just_pressed("kick"):
-			if animation_player.current_animation != "Kicking":
-				animation_player.play("Kicking")
-				is_locked = true
-				is_kicking = true
+	# Handle [kick-left] button press
+	if Input.is_action_just_pressed("left_kick"):
+			animation_player.play("Kicking_Left")
+			is_locked = true
+			is_kicking = true
 	
-	# Handle [punch] button press
-	if Input.is_action_just_pressed("punch"):
-		if animation_player.current_animation != "Punching":
-				animation_player.play("Punching")
+	# Handle [kick-right] button press
+	if Input.is_action_just_pressed("right_kick"):
+			animation_player.play("Kicking_Right")
+			is_locked = true
+			is_kicking = true
+	
+	# Handle [punch-left] button press
+	if Input.is_action_just_pressed("left_punch"):
+		if animation_player.current_animation != "Punching_Left":
+				animation_player.play("Punching_Left")
+				is_locked = true
+				is_punching = true
+	
+	# Handle [punch-right] button press
+	if Input.is_action_just_pressed("right_punch"):
+		if animation_player.current_animation != "Punching_Right":
+				animation_player.play("Punching_Right")
 				is_locked = true
 				is_punching = true
 	
@@ -96,6 +108,7 @@ func _physics_process(delta) -> void:
 	if Input.is_action_just_pressed("sprint"):
 		player_current_speed = player_running_speed
 		is_sprinting = true
+	
 	# Handle [sprint] button release
 	if Input.is_action_just_released("sprint"):
 		player_current_speed = player_walking_speed
@@ -111,7 +124,10 @@ func _physics_process(delta) -> void:
 	if direction:
 		if !is_locked:
 			if is_on_floor():
-				if is_sprinting:
+				if is_crouching:
+					if animation_player.current_animation != "Crawling_InPlace":
+						animation_player.play("Crawling_InPlace")
+				elif is_sprinting:
 					if animation_player.current_animation != "Running_InPlace":
 						animation_player.play("Running_InPlace")
 				else:
@@ -121,30 +137,32 @@ func _physics_process(delta) -> void:
 		velocity.x = direction.x * player_current_speed
 		velocity.z = direction.z * player_current_speed
 	else:
-		if animation_player.current_animation == "Running_InPlace":
-			# Known Issue: Animation moves ahead of player.
-			#animation_player.play("Run_To_Stop")
-			pass
-		elif animation_player.current_animation == "Walking_InPlace":
-			animation_player.stop()
+		var animations = [ "Crawling_InPlace" , "Running_InPlace", "Walking_InPlace" ]
+		for animation in animations:
+			if animation_player.current_animation == animation:
+				animation_player.stop()
 		velocity.x = move_toward(velocity.x, 0, player_current_speed)
 		velocity.z = move_toward(velocity.z, 0, player_current_speed)
 	
 	# Handle [jump] button press
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		#animation_player.play("Jumping_Up")
 		velocity.y = player_jump_velocity
 		is_double_jumping = false
 		is_jumping = true
-	# Handle [jump] button press, again (double-jump
+	
+	# Handle [jump] button press, again (double-jump)
 	if Input.is_action_just_pressed("jump") and not is_on_floor():
 		if double_jump_enabled:
 			if !is_double_jumping:
-				#animation_player.play("Jumping_Up")
 				velocity.y = player_jump_velocity
 				is_double_jumping = true
+	
+	# Play the "falling" animation if the player is jumping (and in the air)
 	if Input.is_action_pressed("jump") and not is_on_floor():
-		animation_player.play("Falling_Idle")
+		if animation_player.current_animation != "Falling_Idle":
+			animation_player.play("Falling_Idle")
+	
+	# Stop "falling" animation if the player has returned to the ground
 	if animation_player.current_animation == "Falling_Idle" and is_on_floor():
 		animation_player.stop()
 		is_jumping = false
@@ -169,9 +187,11 @@ func _physics_process(delta) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	# Toggle "debug" visibility
 	if Input.is_action_just_pressed("debug"):
 		debug.visible = !debug.visible
+	
 	# Handle [debug] options
 	if debug.visible:
 		# Toggle double-jump
@@ -183,6 +203,7 @@ func _process(delta: float) -> void:
 				debug_action.text = action
 		# Update "Current animation:"
 		debug_animation.text = animation_player.current_animation
+	
 	# Toggle "pause" menu
 	if Input.is_action_just_pressed("pause"):
 		game_paused = !game_paused
