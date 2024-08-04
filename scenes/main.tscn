@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=18 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
@@ -38,6 +38,21 @@ uv1_triplanar = true
 albedo_texture = ExtResource("4_hpcia")
 uv1_triplanar = true
 
+[sub_resource type="TextMesh" id="TextMesh_r4v13"]
+text = "1 block gap"
+
+[sub_resource type="TextMesh" id="TextMesh_vufn4"]
+text = "2 block gap"
+
+[sub_resource type="TextMesh" id="TextMesh_u622y"]
+text = "3 block gap"
+
+[sub_resource type="TextMesh" id="TextMesh_t8har"]
+text = "4 block gap"
+
+[sub_resource type="TextMesh" id="TextMesh_rfqkr"]
+text = "5 block gap"
+
 [node name="world" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -48,6 +63,7 @@ shadow_enabled = true
 environment = SubResource("Environment_2av2b")
 
 [node name="map" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="floor" type="CSGBox3D" parent="map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -71,5 +87,83 @@ transform = Transform3D(0.999199, 0, 0.0400098, 0, 1, 0, -0.0400098, 0, 0.999199
 material_override = SubResource("StandardMaterial3D_0vsn4")
 use_collision = true
 size = Vector3(3, 3, 3)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="map"]
+transform = Transform3D(0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0, 1, 2.76381, -0.481497, 3.99908)
+use_collision = true
+size = Vector3(3, 1, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 4)
+use_collision = true
+
+[node name="block-gap-1" type="MeshInstance3D" parent="map"]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 4.95, 2.42859, 5)
+mesh = SubResource("TextMesh_r4v13")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, 4)
+use_collision = true
+
+[node name="block-gap-2" type="MeshInstance3D" parent="map"]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 6.95, 2.42859, 5)
+mesh = SubResource("TextMesh_vufn4")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 4)
+use_collision = true
+
+[node name="block-gap-3" type="MeshInstance3D" parent="map"]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 10.95, 2.42859, 5)
+mesh = SubResource("TextMesh_u622y")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 4)
+use_collision = true
+
+[node name="block-gap-4" type="MeshInstance3D" parent="map"]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 16.95, 2.42859, 5)
+mesh = SubResource("TextMesh_t8har")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 0, 4)
+use_collision = true
+
+[node name="block-gap-5" type="MeshInstance3D" parent="map"]
+transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 24.95, 2.42859, 5)
+mesh = SubResource("TextMesh_rfqkr")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.5, 0, 4)
+use_collision = true
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="map"]
+transform = Transform3D(-0.939693, 0.34202, -8.74228e-08, 0.34202, 0.939693, 0, 8.21505e-08, -2.99003e-08, -1, 33.2638, -0.481497, 3.99908)
+use_collision = true
+size = Vector3(3, 1, 1)
 
 [node name="player" parent="." instance=ExtResource("5_kcbut")]
