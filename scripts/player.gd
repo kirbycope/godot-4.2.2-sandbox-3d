@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 # Note: `@export` variables to make them available in the Godot Inspector.
 @export var double_jump_enabled := false
-@export var flying_enabled := false
+@export var flying_enabled := true
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
@@ -12,6 +12,7 @@ extends CharacterBody3D
 @export var player_flying_speed := 5.0
 @export var player_running_speed := 5.0
 @export var player_walking_speed := 2.5
+@export var vibration_enabled := true
 
 # Note: `@onready` variables are set when the scene is loaded.
 @onready var animation_player = $visuals/AuxScene/AnimationPlayer
@@ -84,24 +85,48 @@ func _input(event) -> void:
 			if animation_player.current_animation != "Kicking_Left":
 				animation_player.play("Kicking_Left")
 			is_kicking_left = true
+			# Check for collision
+			if $visuals/RayCast3D_InFrontPlayer_Low.is_colliding():
+				# Delay vibration
+				if vibration_enabled:
+					await get_tree().create_timer(0.5).timeout
+					Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
 		
 		# [kick-right] button _pressed_ (while grounded)
 		if event.is_action_pressed("right_kick") and is_on_floor():
 			if animation_player.current_animation != "Kicking_Right":
 				animation_player.play("Kicking_Right")
 			is_kicking_right = true
+			# Check for collision
+			if $visuals/RayCast3D_InFrontPlayer_Low.is_colliding():
+				# Delay vibration
+				if vibration_enabled:
+					await get_tree().create_timer(0.5).timeout
+					Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
 		
 		# [punch-left] button _pressed_ (while grounded)
 		if event.is_action_pressed("left_punch") and is_on_floor():
 			if animation_player.current_animation != "Punching_Left":
 				animation_player.play("Punching_Left")
 			is_punching_left = true
+			# Check for collision
+			if $visuals/RayCast3D_InFrontPlayer_Middle.is_colliding():
+				# Delay vibration
+				if vibration_enabled:
+					await get_tree().create_timer(0.3).timeout
+					Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
 		
 		# [punch-right] button _pressed_ (while grounded)
 		if event.is_action_pressed("right_punch") and is_on_floor():
 			if animation_player.current_animation != "Punching_Right":
 				animation_player.play("Punching_Right")
 			is_punching_right = true
+			# Check for collision
+			if $visuals/RayCast3D_InFrontPlayer_Middle.is_colliding():
+				# Delay vibration
+				if vibration_enabled:
+					await get_tree().create_timer(0.3).timeout
+					Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
 		
 		# [sprint] button _pressed_
 		if event.is_action_pressed("sprint"):
@@ -190,7 +215,7 @@ func _physics_process(delta) -> void:
 		# Move down a bit
 		position.y -= 0.1
 		# End flying if collision detected (below player)
-		if $RayCast3D.is_colliding():
+		if $visuals/RayCast3D_BelowPlayer.is_colliding():
 			flying_stop()
 	
 	# [jump] button _pressed_ (while on the ground)
