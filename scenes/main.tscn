@@ -1,11 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=18 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
 [ext_resource type="Texture2D" uid="uid://dyyc6yygcktff" path="res://assets/kenney_prototype-textures/Purple/texture_09.png" id="3_swof7"]
 [ext_resource type="Texture2D" uid="uid://c17i3a7oeh6sq" path="res://assets/kenney_prototype-textures/Green/texture_09.png" id="4_hpcia"]
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="5_kcbut"]
-[ext_resource type="PackedScene" uid="uid://m2bpnqmd5bk5" path="res://assets/models/godot_plush/godot_plush_V2.glb" id="6_slcsp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eehnh"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -84,7 +83,7 @@ use_collision = true
 size = Vector3(2, 2, 2)
 
 [node name="box3" type="CSGBox3D" parent="map"]
-transform = Transform3D(0.999199, 0, 0.0400098, 0, 1, 0, -0.0400098, 0, 0.999199, -1.06196, 1, -11.6174)
+transform = Transform3D(0.999199, 0, 0.0400098, 0, 1, 0, -0.0400098, 0, 0.999199, -2.95032, 1, -10.2518)
 material_override = SubResource("StandardMaterial3D_0vsn4")
 use_collision = true
 size = Vector3(3, 3, 3)
@@ -168,6 +167,3 @@ use_collision = true
 size = Vector3(3, 1, 1)
 
 [node name="player" parent="." instance=ExtResource("5_kcbut")]
-
-[node name="godot_plush_V2" parent="." instance=ExtResource("6_slcsp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.69067, 1.00073, -0.644504)
