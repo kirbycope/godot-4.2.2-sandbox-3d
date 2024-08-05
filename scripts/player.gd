@@ -2,11 +2,13 @@ extends CharacterBody3D
 
 # Note: `@export` variables to make them available in the Godot Inspector.
 @export var double_jump_enabled := false
+@export var flying_enabled := false
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
 @export var player_jump_velocity := 4.5
-@export var player_crouching_speed := 0.75
+@export var player_crawling_speed := 0.75
+@export var player_flying_speed := 5.0
 @export var player_running_speed := 5.0
 @export var player_walking_speed := 2.5
 
@@ -14,6 +16,7 @@ extends CharacterBody3D
 @onready var animation_player = $visuals/AuxScene/AnimationPlayer
 @onready var debug = $camera_mount/Camera3D/debug
 @onready var debug_double_jump = $camera_mount/Camera3D/debug/OptionCheckBox1
+@onready var debug_flying = $camera_mount/Camera3D/debug/OptionCheckBox2
 @onready var debug_action = $camera_mount/Camera3D/debug/LastActionTextEdit
 @onready var debug_animation = $camera_mount/Camera3D/debug/CurrentAnimationTextEdit
 @onready var camera = $camera_mount
@@ -23,6 +26,7 @@ var camera_y_rotation := 0.0
 var camera_x_rotation := 0.0
 var is_crouching := false # Tracks if the player is crouching
 var is_double_jumping := false # Tracks if the player is double-jumping
+var is_flying := false # Tracks if the player is flying
 var is_locked := false # Prevents player movement if true
 var is_jumping := false # Tracks if the player is jumping
 var is_kicking := false # Tracks if the player is kicking
@@ -31,6 +35,7 @@ var is_sprinting := false # Tracks if the player is sprinting
 var is_walking := false # Tracks if the player is walking
 var game_paused := false # Tracks if the player has paused the game
 var player_current_speed := 3.0 # Tracks the player's current speed
+var timer_jump := 0.0 # Timer for double-jump to stop flying
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -59,7 +64,10 @@ func _physics_process(delta) -> void:
 		if is_crouching:
 			animation_player.play("Crouching_Idle")
 		elif !is_on_floor():
-			animation_player.play("Falling_Idle")
+			if is_flying:
+				animation_player.play("Flying")
+			else:
+				animation_player.play("Falling_Idle")
 		else:
 			animation_player.play("Idle")
 		is_kicking = false
@@ -69,13 +77,19 @@ func _physics_process(delta) -> void:
 	# Handle [crouch] button press
 	if Input.is_action_just_pressed("crouch"):
 		animation_player.play("Crouching_Idle")
-		player_current_speed = player_crouching_speed
 		is_crouching = true
+	
+	# Handle [crouch] button held
+	if Input.is_action_pressed("crouch"):
+		if is_flying:
+			position.y -= 0.1
+			# End flying
+			if $RayCast3D.is_colliding():
+				flying_stop()
 	
 	# Handle [crouch] button release
 	elif Input.is_action_just_released("crouch"):
 		animation_player.play("Idle")
-		player_current_speed = player_walking_speed
 		is_crouching = false
 	
 	# Handle [kick-left] button press
@@ -106,17 +120,27 @@ func _physics_process(delta) -> void:
 	
 	# Handle [sprint] button press
 	if Input.is_action_just_pressed("sprint"):
-		player_current_speed = player_running_speed
 		is_sprinting = true
 	
 	# Handle [sprint] button release
 	if Input.is_action_just_released("sprint"):
-		player_current_speed = player_walking_speed
 		is_sprinting = false
 	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+	
+	# Set speed according to player's action/position
+	if is_crouching:
+		player_current_speed = player_crawling_speed
+	elif is_flying and is_sprinting:
+		player_current_speed = player_flying_speed * 2
+	elif is_flying:
+		player_current_speed = player_flying_speed
+	elif is_sprinting:
+		player_current_speed = player_running_speed
+	else:
+		player_current_speed = player_walking_speed
 	
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
@@ -150,12 +174,31 @@ func _physics_process(delta) -> void:
 		is_double_jumping = false
 		is_jumping = true
 	
-	# Handle [jump] button press, again (double-jump)
+	# Handle [jump] button press
+	if Input.is_action_pressed("jump"):
+		if is_flying:
+			position.y += 0.1
+	
+	# Handle [jump] button press, again (double-jump or fly)
 	if Input.is_action_just_pressed("jump") and not is_on_floor():
-		if double_jump_enabled:
-			if !is_double_jumping:
-				velocity.y = player_jump_velocity
-				is_double_jumping = true
+		# Double jump, if enabled and not already double-jumping
+		if double_jump_enabled and !is_double_jumping:
+			velocity.y = player_jump_velocity
+			is_double_jumping = true
+		# Start flying, if enabled and not already flying
+		if flying_enabled and !is_flying:
+			flying_start()
+		# Start a timer for the first [jump] button press in a series
+		if is_flying and timer_jump == 0.0:
+			timer_jump = Time.get_ticks_msec()
+		# If the timer is already running...
+		elif is_flying and timer_jump > 0.0:
+			# Check if _this_ button press is within 200 milliseconds
+			var time_now = Time.get_ticks_msec()
+			if time_now - timer_jump < 200:
+				flying_stop()
+			# Either way, reset the timer
+			timer_jump = Time.get_ticks_msec()
 	
 	# Play the "falling" animation if the player is jumping (and in the air)
 	if Input.is_action_pressed("jump") and not is_on_floor():
@@ -196,6 +239,8 @@ func _process(delta: float) -> void:
 	if debug.visible:
 		# Toggle double-jump
 		double_jump_enabled = debug_double_jump.button_pressed
+		# Toggle flying
+		flying_enabled = debug_flying.button_pressed
 		# Update "Last action called:"
 		var input_map = InputMap.get_actions()
 		for action in input_map:
@@ -208,3 +253,16 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		game_paused = !game_paused
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if game_paused else Input.MOUSE_MODE_CAPTURED)
+
+func flying_start():
+	gravity = 0.0
+	motion_mode = MOTION_MODE_FLOATING
+	position.y += 0.1
+	velocity.y = 0.0
+	is_flying = true
+
+func flying_stop():
+	gravity = 9.8
+	motion_mode = MOTION_MODE_GROUNDED
+	velocity.y -= gravity
+	is_flying = false
