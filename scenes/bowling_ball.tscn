@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuf000dx8uksg"]
+
+[ext_resource type="PackedScene" uid="uid://ckdss41jkc30n" path="res://assets/models/bowling_ball/BowlingBall.fbx" id="1_t5oft"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tve0c"]
+margin = 0.2
+radius = 0.55
+
+[node name="BowlingBall" type="RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_tve0c")
+
+[node name="visuals" type="Node3D" parent="."]
+
+[node name="Root Scene" parent="visuals" instance=ExtResource("1_t5oft")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)

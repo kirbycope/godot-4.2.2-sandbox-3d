@@ -13,6 +13,7 @@ extends CharacterBody3D
 @export var player_flying_speed := 5.0
 @export var player_running_speed := 5.0
 @export var player_walking_speed := 2.5
+@export var sprinting_kicking_force := 5.0
 @export var punching_force := 2.0
 @export var vibration_enabled := false
 
@@ -339,10 +340,15 @@ func check_kick_collision():
 		await get_tree().create_timer(0.5).timeout
 		# Unlock the animation player
 		is_animation_locked = false
-		# Apply force
+		# Apply force where applicable
 		if collider is RigidBody3D:
-			# Apply an impact to the collided object
-			collider.apply_impulse((collider.position - collision_point) * kicking_force)
+			# Check if sprinting
+			if is_sprinting:
+				# Apply an impact to the collided object
+				collider.apply_impulse((collider.position - collision_point) * sprinting_kicking_force)
+			else:
+				# Apply an impact to the collided object
+				collider.apply_impulse((collider.position - collision_point) * kicking_force)
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
