@@ -54,10 +54,10 @@ text = "4 block gap"
 text = "5 block gap"
 
 [sub_resource type="BoxMesh" id="BoxMesh_l5c01"]
-size = Vector3(1, 2, 1)
+size = Vector3(2, 2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ja8am"]
-size = Vector3(1, 2, 1)
+size = Vector3(2, 2, 2)
 
 [node name="world" type="Node3D"]
 

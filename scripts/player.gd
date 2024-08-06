@@ -244,17 +244,23 @@ func _physics_process(delta) -> void:
 		# Get the input direction and handle the movement/deceleration.
 		var input_dir = Input.get_vector("left", "right", "forward", "backward")
 		var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-		# If movement was detected...
+		# Check for directional movement
 		if direction:
-			# If player is on the ground...
+			# Check if the player is on the ground
 			if is_on_floor():
+				# Check if the player is crouching
 				if is_crouching:
+					# Play the crouching "move" animation
 					if animation_player.current_animation != "Crawling_InPlace":
 						animation_player.play("Crawling_InPlace")
+				# Check if the player is sprinting
 				elif is_sprinting:
+					# Play the sprinting "move" animation
 					if animation_player.current_animation != "Running_InPlace":
 						animation_player.play("Running_InPlace")
+				# The player must be walking
 				else:
+					# Play the walking "move" animation
 					if animation_player.current_animation != "Walking_InPlace":
 						animation_player.play("Walking_InPlace")
 			# Update the camera to look in the direction based on player input
@@ -265,7 +271,7 @@ func _physics_process(delta) -> void:
 			velocity.z = direction.z * player_current_speed
 		# If no movement detected...
 		else:
-			# Stop any/all movement based animations
+			# Stop any/all "move" animations
 			var animations = [ "Crawling_InPlace" , "Running_InPlace", "Walking_InPlace" ]
 			for animation in animations:
 				if animation_player.current_animation == animation:
@@ -329,7 +335,7 @@ func check_kick_collision():
 		is_animation_locked = false
 		# Apply force
 		if collider is RigidBody3D:
-			# Apply some force to the collided object
+			# Apply an impact to the collided object
 			collider.apply_impulse(-transform.basis.z * 5.0)
 		# Controller vibration
 		if vibration_enabled:
@@ -349,7 +355,7 @@ func check_punch_collision():
 		is_animation_locked = false
 		# Apply force
 		if collider is RigidBody3D:
-			# Apply some force to the collided object
+			# Apply an impact to the collided object
 			collider.apply_impulse(-transform.basis.z * 5.0)
 		# Controller vibration
 		if vibration_enabled:
