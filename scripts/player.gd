@@ -89,52 +89,32 @@ func _input(event) -> void:
 			is_animation_locked = true
 			if animation_player.current_animation != "Kicking_Left":
 				animation_player.play("Kicking_Left")
-			# Check for collision
-			if $visuals/RayCast3D_InFrontPlayer_Low.is_colliding():
-				# Delay vibration
-				if vibration_enabled:
-					await get_tree().create_timer(0.5).timeout
-					Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
-					is_animation_locked = false
+			# Check the kick hits something
+			check_kick_collision()
 		
 		# [kick-right] button _pressed_ (while grounded)
 		if event.is_action_pressed("right_kick") and is_on_floor():
 			is_animation_locked = true
 			if animation_player.current_animation != "Kicking_Right":
 				animation_player.play("Kicking_Right")
-			# Check for collision
-			if $visuals/RayCast3D_InFrontPlayer_Low.is_colliding():
-				# Delay vibration
-				if vibration_enabled:
-					await get_tree().create_timer(0.5).timeout
-					Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
-					is_animation_locked = false
+			# Check the kick hits something
+			check_kick_collision()
 		
 		# [punch-left] button _pressed_ (while grounded)
 		if event.is_action_pressed("left_punch") and is_on_floor():
 			is_animation_locked = true
 			if animation_player.current_animation != "Punching_Left":
 				animation_player.play("Punching_Left")
-			# Check for collision
-			if $visuals/RayCast3D_InFrontPlayer_Middle.is_colliding():
-				# Delay vibration
-				if vibration_enabled:
-					await get_tree().create_timer(0.3).timeout
-					Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
-					is_animation_locked = false
+			# Check the punch hits something
+			check_punch_collision()
 		
 		# [punch-right] button _pressed_ (while grounded)
 		if event.is_action_pressed("right_punch") and is_on_floor():
 			is_animation_locked = true
 			if animation_player.current_animation != "Punching_Right":
 				animation_player.play("Punching_Right")
-			# Check for collision
-			if $visuals/RayCast3D_InFrontPlayer_Middle.is_colliding():
-				# Delay vibration
-				if vibration_enabled:
-					await get_tree().create_timer(0.3).timeout
-					Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
-					is_animation_locked = false
+			# Check the punch hits something
+			check_punch_collision()
 		
 		# [sprint] button _pressed_
 		if event.is_action_pressed("sprint"):
@@ -335,6 +315,45 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		game_paused = !game_paused
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if game_paused else Input.MOUSE_MODE_CAPTURED)
+
+func check_kick_collision():
+	# Get the RayCast3D
+	var raycast = $visuals/RayCast3D_InFrontPlayer_Low
+	# Check if the RayCast3D is collining with something
+	if raycast.is_colliding():
+		# Get the object the RayCast is colliding with
+		var collider = raycast.get_collider()
+		# Delay execution
+		await get_tree().create_timer(0.5).timeout
+		# Unlock the animation player
+		is_animation_locked = false
+		# Apply force
+		if collider is RigidBody3D:
+			# Apply some force to the collided object
+			collider.apply_impulse(-transform.basis.z * 5.0)
+		# Controller vibration
+		if vibration_enabled:
+			Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
+
+# Checks if the thrown punch hits anything.
+func check_punch_collision():
+	# Get the RayCast3D
+	var raycast = $visuals/RayCast3D_InFrontPlayer_Middle
+	# Check if the RayCast3D is collining with something
+	if raycast.is_colliding():
+		# Get the object the RayCast is colliding with
+		var collider = raycast.get_collider()
+		# Delay execution
+		await get_tree().create_timer(0.3).timeout
+		# Unlock the animation player
+		is_animation_locked = false
+		# Apply force
+		if collider is RigidBody3D:
+			# Apply some force to the collided object
+			collider.apply_impulse(-transform.basis.z * 5.0)
+		# Controller vibration
+		if vibration_enabled:
+			Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
 
 func flying_start():
 	gravity = 0.0

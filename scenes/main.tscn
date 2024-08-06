@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=20 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
@@ -52,6 +52,12 @@ text = "4 block gap"
 
 [sub_resource type="TextMesh" id="TextMesh_rfqkr"]
 text = "5 block gap"
+
+[sub_resource type="BoxMesh" id="BoxMesh_l5c01"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ja8am"]
+size = Vector3(1, 2, 1)
 
 [node name="world" type="Node3D"]
 
@@ -165,5 +171,14 @@ use_collision = true
 transform = Transform3D(-0.939693, 0.34202, -8.74228e-08, 0.34202, 0.939693, 0, 8.21505e-08, -2.99003e-08, -1, 33.2348, -0.485835, 3.99908)
 use_collision = true
 size = Vector3(3, 1, 1)
+
+[node name="RigidBody3D" type="RigidBody3D" parent="map"]
+transform = Transform3D(0.999804, -0.0197733, 0, 0.0197733, 0.999804, 0, 0, 0, 1, 2.382, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="map/RigidBody3D"]
+mesh = SubResource("BoxMesh_l5c01")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="map/RigidBody3D"]
+shape = SubResource("BoxShape3D_ja8am")
 
 [node name="player" parent="." instance=ExtResource("5_kcbut")]
