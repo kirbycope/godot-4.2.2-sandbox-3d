@@ -3,6 +3,7 @@ extends CharacterBody3D
 # Note: `@export` variables to make them available in the Godot Inspector.
 @export var double_jump_enabled := false
 @export var flying_enabled := false
+@export var kicking_force := 3.0
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
@@ -12,6 +13,7 @@ extends CharacterBody3D
 @export var player_flying_speed := 5.0
 @export var player_running_speed := 5.0
 @export var player_walking_speed := 2.5
+@export var punching_force := 2.0
 @export var vibration_enabled := false
 
 # Note: `@onready` variables are set when the scene is loaded.
@@ -85,7 +87,7 @@ func _input(event) -> void:
 				is_crouching = false
 		
 		# [kick-left] button _pressed_ (while grounded)
-		if event.is_action_pressed("left_kick") and is_on_floor():
+		if event.is_action_pressed("left_kick") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
 			if animation_player.current_animation != "Kicking_Left":
 				animation_player.play("Kicking_Left")
@@ -93,7 +95,7 @@ func _input(event) -> void:
 			check_kick_collision()
 		
 		# [kick-right] button _pressed_ (while grounded)
-		if event.is_action_pressed("right_kick") and is_on_floor():
+		if event.is_action_pressed("right_kick") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
 			if animation_player.current_animation != "Kicking_Right":
 				animation_player.play("Kicking_Right")
@@ -101,7 +103,7 @@ func _input(event) -> void:
 			check_kick_collision()
 		
 		# [punch-left] button _pressed_ (while grounded)
-		if event.is_action_pressed("left_punch") and is_on_floor():
+		if event.is_action_pressed("left_punch") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
 			if animation_player.current_animation != "Punching_Left":
 				animation_player.play("Punching_Left")
@@ -109,7 +111,7 @@ func _input(event) -> void:
 			check_punch_collision()
 		
 		# [punch-right] button _pressed_ (while grounded)
-		if event.is_action_pressed("right_punch") and is_on_floor():
+		if event.is_action_pressed("right_punch") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
 			if animation_player.current_animation != "Punching_Right":
 				animation_player.play("Punching_Right")
@@ -246,29 +248,31 @@ func _physics_process(delta) -> void:
 		var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		# Check for directional movement
 		if direction:
-			# Check if the player is on the ground
-			if is_on_floor():
-				# Check if the player is crouching
-				if is_crouching:
-					# Play the crouching "move" animation
-					if animation_player.current_animation != "Crawling_InPlace":
-						animation_player.play("Crawling_InPlace")
-				# Check if the player is sprinting
-				elif is_sprinting:
-					# Play the sprinting "move" animation
-					if animation_player.current_animation != "Running_InPlace":
-						animation_player.play("Running_InPlace")
-				# The player must be walking
-				else:
-					# Play the walking "move" animation
-					if animation_player.current_animation != "Walking_InPlace":
-						animation_player.play("Walking_InPlace")
-			# Update the camera to look in the direction based on player input
-			visuals.look_at(position + direction)
-			# Update horizontal veolicty
-			velocity.x = direction.x * player_current_speed
-			# Update vertical veolocity
-			velocity.z = direction.z * player_current_speed
+			# Check if the animation player is ulocked
+			if !is_animation_locked:
+				# Check if the player is on the ground
+				if is_on_floor():
+					# Check if the player is crouching
+					if is_crouching:
+						# Play the crouching "move" animation
+						if animation_player.current_animation != "Crawling_InPlace":
+							animation_player.play("Crawling_InPlace")
+					# Check if the player is sprinting
+					elif is_sprinting:
+						# Play the sprinting "move" animation
+						if animation_player.current_animation != "Running_InPlace":
+							animation_player.play("Running_InPlace")
+					# The player must be walking
+					else:
+						# Play the walking "move" animation
+						if animation_player.current_animation != "Walking_InPlace":
+							animation_player.play("Walking_InPlace")
+				# Update the camera to look in the direction based on player input
+				visuals.look_at(position + direction)
+				# Update horizontal veolicty
+				velocity.x = direction.x * player_current_speed
+				# Update vertical veolocity
+				velocity.z = direction.z * player_current_speed
 		# If no movement detected...
 		else:
 			# Stop any/all "move" animations
@@ -329,6 +333,8 @@ func check_kick_collision():
 	if raycast.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast.get_collider()
+		# Get the point where the collision occurred
+		var collision_point = raycast.get_collision_point()
 		# Delay execution
 		await get_tree().create_timer(0.5).timeout
 		# Unlock the animation player
@@ -336,7 +342,7 @@ func check_kick_collision():
 		# Apply force
 		if collider is RigidBody3D:
 			# Apply an impact to the collided object
-			collider.apply_impulse(-transform.basis.z * 5.0)
+			collider.apply_impulse((collider.position - collision_point) * kicking_force)
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
@@ -349,6 +355,8 @@ func check_punch_collision():
 	if raycast.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast.get_collider()
+		# Get the point where the collision occurred
+		var collision_point = raycast.get_collision_point()
 		# Delay execution
 		await get_tree().create_timer(0.3).timeout
 		# Unlock the animation player
@@ -356,7 +364,7 @@ func check_punch_collision():
 		# Apply force
 		if collider is RigidBody3D:
 			# Apply an impact to the collided object
-			collider.apply_impulse(-transform.basis.z * 5.0)
+			collider.apply_impulse((collider.position - collision_point) * punching_force)
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
