@@ -396,7 +396,7 @@ func camera_rotate_by_controller(delta: float):
 	# Determine the horizontal rotation
 	camera_y_rotation += (look_right - look_left) * look_sensitivity * delta
 	# Rotate the visuals opposite the camera direction
-	visuals.rotation_degrees.y += (look_right - look_left)
+	visuals.rotation_degrees.y += (look_right - look_left) * look_sensitivity * delta
 	# Rotate camera left and right
 	rotation_degrees.y = -camera_y_rotation
 
