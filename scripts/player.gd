@@ -3,7 +3,7 @@ extends CharacterBody3D
 # Note: `@export` variables to make them available in the Godot Inspector.
 @export var double_jump_enabled := false
 @export var flying_enabled := false
-@export var kicking_force := 3.0
+@export var kicking_force := 5.0
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
@@ -13,8 +13,8 @@ extends CharacterBody3D
 @export var player_flying_speed := 5.0
 @export var player_running_speed := 5.0
 @export var player_walking_speed := 2.5
-@export var sprinting_kicking_force := 5.0
-@export var punching_force := 2.0
+@export var sprinting_kicking_force := 10.0
+@export var punching_force := 2.5
 @export var vibration_enabled := false
 
 # Note: `@onready` variables are set when the scene is loaded.
