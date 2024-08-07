@@ -3,7 +3,10 @@ extends CharacterBody3D
 # Note: `@export` variables to make them available in the Godot Inspector.
 @export var double_jump_enabled := false
 @export var flying_enabled := false
-@export var kicking_force := 5.0
+@export var force_kicking := 4.0
+@export var force_kicking_sprinting := 5.0
+@export var force_punching := 2.0
+@export var force_punching_sprinting := 3.0
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
@@ -13,19 +16,17 @@ extends CharacterBody3D
 @export var player_flying_speed := 5.0
 @export var player_running_speed := 5.0
 @export var player_walking_speed := 2.5
-@export var sprinting_kicking_force := 10.0
-@export var punching_force := 2.5
 @export var vibration_enabled := false
 
 # Note: `@onready` variables are set when the scene is loaded.
 @onready var animation_player = $visuals/AuxScene/AnimationPlayer
+@onready var camera = $camera_mount
 @onready var debug = $camera_mount/Camera3D/debug
 @onready var debug_double_jump = $camera_mount/Camera3D/debug/OptionCheckBox1
 @onready var debug_flying = $camera_mount/Camera3D/debug/OptionCheckBox2
 @onready var debug_vibration = $camera_mount/Camera3D/debug/OptionCheckBox3
 @onready var debug_action = $camera_mount/Camera3D/debug/LastActionTextEdit
 @onready var debug_animation = $camera_mount/Camera3D/debug/CurrentAnimationTextEdit
-@onready var camera = $camera_mount
 @onready var visuals = $visuals
 
 var animations_crouching = [ "Crawling_InPlace" , "Crouching_Idle"]
@@ -43,10 +44,10 @@ var game_paused := false # Tracks if the player has paused the game
 var player_current_speed := 3.0 # Tracks the player's current speed
 var timer_jump := 0.0 # Timer for double-jump to stop flying
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
+## The gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-# Called when the node enters the scene tree for the first time.
+## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
 	# Disable the mouse pointer and capture the motion
@@ -55,7 +56,7 @@ func _ready() -> void:
 	# Hide the debug menu
 	debug.visible = false
 
-# Called once for every event before _unhandled_input(), allowing you to consume some events.
+## Called once for every event before _unhandled_input(), allowing you to consume some events.
 func _input(event) -> void:
 	
 	# Toggle "debug" visibility
@@ -65,17 +66,16 @@ func _input(event) -> void:
 	# If the game is not paused...
 	if !game_paused:
 		
-		# Rotate camera based on mouse movement
+		# Check for mouse motion
 		if event is InputEventMouseMotion:
-			rotate_y(deg_to_rad(-event.relative.x*mouse_sensitivity_horizontal))
-			visuals.rotate_y(deg_to_rad(event.relative.x*mouse_sensitivity_horizontal))
-			camera.rotate_x(deg_to_rad(-event.relative.y*mouse_sensitivity_vertical))
+			# Rotate camera based on mouse movement
+			camera_rotate_by_mouse(event)
 		
 		# [crouch] button _pressed_ (and the animation player is not locked)
 		if event.is_action_pressed("crouch") and !is_animation_locked:
 			if is_flying:
 				# Pitch the player slightly downward
-				$visuals/AuxScene.rotation.x = deg_to_rad(6)
+				camera.rotation.x = deg_to_rad(6)
 			else:
 				is_crouching = true
 		
@@ -83,7 +83,7 @@ func _input(event) -> void:
 		if event.is_action_released("crouch"):
 			if is_flying:
 				# Reset player pitch
-				$visuals/AuxScene.rotation.x = 0
+				camera.rotation.x = 0
 			else:
 				is_crouching = false
 		
@@ -127,7 +127,7 @@ func _input(event) -> void:
 		if event.is_action_released("sprint"):
 			is_sprinting = false
 
-# Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
+## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
 	
 		# Set movement speed according to player's action and location
@@ -202,7 +202,7 @@ func _physics_process(delta) -> void:
 				# If already flying, angle the player
 				elif flying_enabled and is_flying:
 					# Pitch the player slightly downward
-					$visuals/AuxScene.rotation.x = deg_to_rad(-6)
+					camera.rotation.x = deg_to_rad(-6)
 				# Check if flying but the "jump timer" hasn't started
 				if is_flying and timer_jump == 0.0:
 					# Set the "jump timer" to the current game time
@@ -236,7 +236,7 @@ func _physics_process(delta) -> void:
 				# Check if the [jump] action is just released
 				if Input.is_action_just_released("jump"):
 					# Reset player pitch
-					$visuals/AuxScene.rotation.x = 0.0
+					camera.rotation.x = 0.0
 			# The player must be "falling"
 			else:
 				# Check if the current animation is not the falling one
@@ -249,7 +249,7 @@ func _physics_process(delta) -> void:
 		var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		# Check for directional movement
 		if direction:
-			# Check if the animation player is ulocked
+			# Check if the animation player is unlocked
 			if !is_animation_locked:
 				# Check if the player is on the ground
 				if is_on_floor():
@@ -286,25 +286,19 @@ func _physics_process(delta) -> void:
 			# Update vertical veolocity
 			velocity.z = move_toward(velocity.z, 0, player_current_speed)
 		
-		# Move player
-		move_and_slide()
+		# Check if the animation player is unlocked
+		if !is_animation_locked:
+			# Move player
+			move_and_slide()
 		
 		# Handle [look_*] using controller
 		var look_actions = ["look_down", "look_up", "look_left", "look_right"]
 		for action in look_actions:
 			if Input.is_action_pressed(action):
-				var look_up = Input.get_action_strength("look_up")
-				var look_down = Input.get_action_strength("look_down")
-				var look_left = Input.get_action_strength("look_left")
-				var look_right = Input.get_action_strength("look_right")
-				camera_x_rotation += (look_up - look_down) * look_sensitivity * delta
-				camera_y_rotation += (look_left - look_right) * look_sensitivity * delta
-				camera_x_rotation = clamp(camera_x_rotation, -90, 90)
-				rotation_degrees.y = camera_y_rotation
-				camera.rotation_degrees.x = camera_x_rotation
+				camera_rotate_by_controller(delta)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
 	
 	# Handle [debug] options
 	if debug.visible:
@@ -322,11 +316,14 @@ func _process(delta: float) -> void:
 		# Update "Current animation:"
 		debug_animation.text = animation_player.current_animation
 	
-	# Toggle "pause" menu
+	# Check if the [pause] action was just pressed
 	if Input.is_action_just_pressed("pause"):
+		# Toggle game paused
 		game_paused = !game_paused
+		# Toggle mouse capture
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if game_paused else Input.MOUSE_MODE_CAPTURED)
 
+## Check if the kick hits anything.
 func check_kick_collision():
 	# Get the RayCast3D
 	var raycast = $visuals/RayCast3D_InFrontPlayer_Low
@@ -342,18 +339,15 @@ func check_kick_collision():
 		is_animation_locked = false
 		# Apply force where applicable
 		if collider is RigidBody3D:
-			# Check if sprinting
-			if is_sprinting:
-				# Apply an impact to the collided object
-				collider.apply_impulse((collider.position - collision_point) * sprinting_kicking_force)
-			else:
-				# Apply an impact to the collided object
-				collider.apply_impulse((collider.position - collision_point) * kicking_force)
+			# Define the force to apply to the collided object
+			var force = force_kicking_sprinting if is_sprinting else force_kicking
+			# Apply the force to the collided object
+			collider.apply_impulse((collider.position - collision_point) * force)
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
 
-# Checks if the thrown punch hits anything.
+## Checks if the thrown punch hits anything.
 func check_punch_collision():
 	# Get the RayCast3D
 	var raycast = $visuals/RayCast3D_InFrontPlayer_Middle
@@ -369,12 +363,44 @@ func check_punch_collision():
 		is_animation_locked = false
 		# Apply force
 		if collider is RigidBody3D:
-			# Apply an impact to the collided object
-			collider.apply_impulse((collider.position - collision_point) * punching_force)
+			# Define the force to apply to the collided force_punching
+			var force = force_punching_sprinting if is_sprinting else force_kicking
+			# Apply the force to the collided object
+			collider.apply_impulse((collider.position - collision_point) * force)
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
 
+## Rotate camera using the mouse motion.
+func camera_rotate_by_mouse(event: InputEvent):
+	# Update the player (visuals+camera) opposite the horizontal mouse motion
+	rotate_y(deg_to_rad(-event.relative.x*mouse_sensitivity_horizontal))
+	# Rotate the visuals opposite the camera direction
+	visuals.rotate_y(deg_to_rad(event.relative.x*mouse_sensitivity_horizontal))
+	# Rotate the camera based on mouse motion (up/forward and down/backward)
+	camera.rotate_x(deg_to_rad(-event.relative.y*mouse_sensitivity_vertical))
+
+## Rotate camera using the right-analog stick.
+func camera_rotate_by_controller(delta: float):
+	# Get the intensity of each action 
+	var look_up = Input.get_action_strength("look_up")
+	var look_down = Input.get_action_strength("look_down")
+	var look_left = Input.get_action_strength("look_left")
+	var look_right = Input.get_action_strength("look_right")
+	# Determine the vertical rotation
+	camera_x_rotation += (look_up - look_down) * look_sensitivity * delta
+	# Limit how far up/down the camera can rotate
+	camera_x_rotation = clamp(camera_x_rotation, -90, 90)
+	# Rotate camera up/forward and down/backward
+	camera.rotation_degrees.x = camera_x_rotation
+	# Determine the horizontal rotation
+	camera_y_rotation += (look_right - look_left) * look_sensitivity * delta
+	# Rotate the visuals opposite the camera direction
+	visuals.rotation_degrees.y += (look_right - look_left)
+	# Rotate camera left and right
+	rotation_degrees.y = -camera_y_rotation
+
+## Start the player flying
 func flying_start():
 	gravity = 0.0
 	motion_mode = MOTION_MODE_FLOATING
@@ -382,9 +408,10 @@ func flying_start():
 	velocity.y = 0.0
 	is_flying = true
 
+## Stop the player flying
 func flying_stop():
 	gravity = 9.8
 	motion_mode = MOTION_MODE_GROUNDED
 	velocity.y -= gravity
-	$visuals/AuxScene.rotation.x = 0
+	camera.rotation.x = 0
 	is_flying = false
