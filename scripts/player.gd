@@ -75,7 +75,7 @@ func _input(event) -> void:
 		if event.is_action_pressed("crouch") and !is_animation_locked:
 			if is_flying:
 				# Pitch the player slightly downward
-				camera.rotation.x = deg_to_rad(6)
+				visuals.rotation.x = deg_to_rad(-6)
 			else:
 				is_crouching = true
 		
@@ -83,7 +83,7 @@ func _input(event) -> void:
 		if event.is_action_released("crouch"):
 			if is_flying:
 				# Reset player pitch
-				camera.rotation.x = 0
+				visuals.rotation.x = 0
 			else:
 				is_crouching = false
 		
@@ -202,7 +202,7 @@ func _physics_process(delta) -> void:
 				# If already flying, angle the player
 				elif flying_enabled and is_flying:
 					# Pitch the player slightly downward
-					camera.rotation.x = deg_to_rad(-6)
+					visuals.rotation.x = deg_to_rad(6)
 				# Check if flying but the "jump timer" hasn't started
 				if is_flying and timer_jump == 0.0:
 					# Set the "jump timer" to the current game time
@@ -236,7 +236,7 @@ func _physics_process(delta) -> void:
 				# Check if the [jump] action is just released
 				if Input.is_action_just_released("jump"):
 					# Reset player pitch
-					camera.rotation.x = 0.0
+					visuals.rotation.x = 0.0
 			# The player must be "falling"
 			else:
 				# Check if the current animation is not the falling one
@@ -413,5 +413,5 @@ func flying_stop():
 	gravity = 9.8
 	motion_mode = MOTION_MODE_GROUNDED
 	velocity.y -= gravity
-	camera.rotation.x = 0
+	visuals.rotation.x = 0
 	is_flying = false
