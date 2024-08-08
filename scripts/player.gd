@@ -38,6 +38,10 @@ var is_crouching := false # Tracks if the player is crouching
 var is_double_jumping := false # Tracks if the player is double-jumping
 var is_flying := false # Tracks if the player is flying
 var is_jumping := false # Tracks if the player is jumping
+var is_kicking_left := false # Tracks if the player is kicking using a left leg
+var is_kicking_right := false # Tracks if the player is kicking using a right leg
+var is_punching_left := false # Tracks if the player is kicking using a left arm
+var is_punching_right := false # Tracks if the player is kicking using a right arm
 var is_sprinting := false # Tracks if the player is sprinting
 var is_walking := false # Tracks if the player is walking
 var game_paused := false # Tracks if the player has paused the game
@@ -90,6 +94,7 @@ func _input(event) -> void:
 		# [kick-left] button _pressed_ (while grounded)
 		if event.is_action_pressed("left_kick") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
+			is_kicking_left = true
 			if animation_player.current_animation != "Kicking_Left":
 				animation_player.play("Kicking_Left")
 			# Check the kick hits something
@@ -98,6 +103,7 @@ func _input(event) -> void:
 		# [kick-right] button _pressed_ (while grounded)
 		if event.is_action_pressed("right_kick") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
+			is_kicking_right = true
 			if animation_player.current_animation != "Kicking_Right":
 				animation_player.play("Kicking_Right")
 			# Check the kick hits something
@@ -106,6 +112,7 @@ func _input(event) -> void:
 		# [punch-left] button _pressed_ (while grounded)
 		if event.is_action_pressed("left_punch") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
+			is_punching_left = true
 			if animation_player.current_animation != "Punching_Left":
 				animation_player.play("Punching_Left")
 			# Check the punch hits something
@@ -114,6 +121,7 @@ func _input(event) -> void:
 		# [punch-right] button _pressed_ (while grounded)
 		if event.is_action_pressed("right_punch") and is_on_floor() and !is_animation_locked:
 			is_animation_locked = true
+			is_punching_right = true
 			if animation_player.current_animation != "Punching_Right":
 				animation_player.play("Punching_Right")
 			# Check the punch hits something
@@ -331,18 +339,30 @@ func check_kick_collision():
 	if raycast.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast.get_collider()
-		# Get the point where the collision occurred
-		var collision_point = raycast.get_collision_point()
 		# Delay execution
 		await get_tree().create_timer(0.5).timeout
 		# Unlock the animation player
 		is_animation_locked = false
-		# Apply force where applicable
+		# Reset action flag(s)
+		is_kicking_left = false
+		is_kicking_right = false
+		# Apply force to RigidBody3D objects
 		if collider is RigidBody3D:
 			# Define the force to apply to the collided object
 			var force = force_kicking_sprinting if is_sprinting else force_kicking
 			# Apply the force to the collided object
-			collider.apply_impulse((collider.position - collision_point) * force)
+			collider.apply_impulse((collider.position - position) * force)
+		# Call character functions
+		if collider is CharacterBody3D:
+			# Check side
+			if is_kicking_left:
+				# Play the appropriate hit animation
+				if collider.has_method("animate_hit_low_left"):
+					collider.call("animate_hit_low_left")
+			else:
+				# Play the appropriate hit animation
+				if collider.has_method("animate_hit_low_right"):
+					collider.call("animate_hit_low_right")
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
@@ -355,18 +375,30 @@ func check_punch_collision():
 	if raycast.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast.get_collider()
-		# Get the point where the collision occurred
-		var collision_point = raycast.get_collision_point()
 		# Delay execution
 		await get_tree().create_timer(0.3).timeout
 		# Unlock the animation player
 		is_animation_locked = false
-		# Apply force
+		# Reset action flag(s)
+		is_punching_left = false
+		is_punching_right = false
+		# Apply force to RigidBody3D objects
 		if collider is RigidBody3D:
 			# Define the force to apply to the collided force_punching
 			var force = force_punching_sprinting if is_sprinting else force_kicking
 			# Apply the force to the collided object
-			collider.apply_impulse((collider.position - collision_point) * force)
+			collider.apply_impulse((collider.position - position) * force)
+		# Call character functions
+		if collider is CharacterBody3D:
+			# Check side
+			if is_punching_left:
+				# Play the appropriate hit animation
+				if collider.has_method("animate_hit_high_left"):
+					collider.call("animate_hit_high_left")
+			else:
+				# Play the appropriate hit animation
+				if collider.has_method("animate_hit_high_right"):
+					collider.call("animate_hit_high_right")
 		# Controller vibration
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)

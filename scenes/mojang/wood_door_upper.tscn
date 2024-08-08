@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bijrnn3acbop2"]
+
+[ext_resource type="Texture2D" uid="uid://cqlb6lbssblnq" path="res://assets/mojang/door_wood_upper.png" id="1_ucgrq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v3wsh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sasyx"]
+transparency = 1
+albedo_texture = ExtResource("1_ucgrq")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_xffmh"]
+material = SubResource("StandardMaterial3D_sasyx")
+
+[node name="wood_door_upper" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_v3wsh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_xffmh")

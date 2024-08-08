@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=24 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cuf000dx8uksg" path="res://scenes/bowling_ball.tscn" id="5_8m3cy"]
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="5_kcbut"]
 [ext_resource type="PackedScene" uid="uid://bhbsaotqck73q" path="res://scenes/bowling_pin.tscn" id="5_xim7v"]
+[ext_resource type="PackedScene" uid="uid://dqsyxd6bsj53b" path="res://scenes/npc.tscn" id="8_sat73"]
+[ext_resource type="PackedScene" uid="uid://c01lsik8n2ajy" path="res://scenes/mojang/plains_small_house_6.tscn" id="9_rxpdv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eehnh"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -219,3 +221,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.5, 11)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -0.5, 11)
 
 [node name="player" parent="." instance=ExtResource("5_kcbut")]
+
+[node name="npc" parent="." instance=ExtResource("8_sat73")]
+transform = Transform3D(-0.0910497, 0, 0.995846, 0, 1, 0, -0.995846, 0, -0.0910497, 5, 0, 0)
+
+[node name="plains_small_house_6" parent="." instance=ExtResource("9_rxpdv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -15)

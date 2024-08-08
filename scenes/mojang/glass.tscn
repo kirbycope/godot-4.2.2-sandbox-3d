@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://bolrvwxqqhpeo"]
+
+[ext_resource type="Texture2D" uid="uid://dw0minkracxuq" path="res://assets/mojang/glass.png" id="1_nwnne"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0e3ji"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkj53"]
+transparency = 1
+albedo_texture = ExtResource("1_nwnne")
+normal_scale = -0.95
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_h7jyo"]
+material = SubResource("StandardMaterial3D_bkj53")
+
+[node name="glass" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0e3ji")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_h7jyo")
