@@ -3,10 +3,12 @@ extends CharacterBody3D
 # Note: `@export` variables to make them available in the Godot Inspector.
 @export var double_jump_enabled := false
 @export var flying_enabled := false
-@export var force_kicking := 4.0
-@export var force_kicking_sprinting := 5.0
-@export var force_punching := 2.0
-@export var force_punching_sprinting := 3.0
+@export var force_kicking := 0.4
+@export var force_kicking_sprinting := 0.8
+@export var force_punching := 0.2
+@export var force_punching_sprinting := 0.4
+@export var force_pushing  := 0.1
+@export var force_pushing_sprinting  := 0.2
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
@@ -296,8 +298,24 @@ func _physics_process(delta) -> void:
 		
 		# Check if the animation player is unlocked
 		if !is_animation_locked:
-			# Move player
-			move_and_slide()
+			# Move player, checking for collision
+			if move_and_slide():
+				# Check each collision
+				for i in get_slide_collision_count():
+					# Get the collision at index `i`
+					var collision = get_slide_collision(i)
+					# Get the position of the current collision
+					var collision_position = collision.get_position()
+					# Get the object being collieded with
+					var collider = collision.get_collider()
+					# Check collider is a physics object
+					if collider is RigidBody3D:
+						# Define the force to apply to the collided object
+						var force = force_pushing_sprinting if is_sprinting else force_pushing
+						var impulse = -collision.get_normal() * (force*50) * delta
+						var position = collision_position - collider.global_position
+						# Apply the force to the collided object
+						collider.apply_impulse(impulse, position)
 		
 		# Handle [look_*] using controller
 		var look_actions = ["look_down", "look_up", "look_left", "look_right"]

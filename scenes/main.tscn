@@ -1,12 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=23 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
 [ext_resource type="Texture2D" uid="uid://dyyc6yygcktff" path="res://assets/kenney_prototype-textures/Purple/texture_09.png" id="3_swof7"]
 [ext_resource type="Texture2D" uid="uid://c17i3a7oeh6sq" path="res://assets/kenney_prototype-textures/Green/texture_09.png" id="4_hpcia"]
-[ext_resource type="PackedScene" uid="uid://cuf000dx8uksg" path="res://scenes/bowling_ball.tscn" id="5_8m3cy"]
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="5_kcbut"]
-[ext_resource type="PackedScene" uid="uid://bhbsaotqck73q" path="res://scenes/bowling_pin.tscn" id="5_xim7v"]
+[ext_resource type="PackedScene" uid="uid://wngyd8wm6j7q" path="res://scenes/bowling_lane.tscn" id="5_s4er6"]
 [ext_resource type="PackedScene" uid="uid://dqsyxd6bsj53b" path="res://scenes/npc.tscn" id="8_sat73"]
 [ext_resource type="PackedScene" uid="uid://c01lsik8n2ajy" path="res://scenes/mojang/plains_small_house_6.tscn" id="9_rxpdv"]
 
@@ -185,40 +184,8 @@ mesh = SubResource("BoxMesh_l5c01")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="map/RigidBody3D"]
 shape = SubResource("BoxShape3D_ja8am")
 
-[node name="Alley" type="Node3D" parent="map"]
-
-[node name="BowlingBall" parent="map/Alley" instance=ExtResource("5_8m3cy")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -8.5, 0, 5)
-
-[node name="BowlingPin1" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, -0.5, 8)
-
-[node name="BowlingPin2" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -0.5, 9)
-
-[node name="BowlingPin3" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.5, 9)
-
-[node name="BowlingPin4" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -0.5, 10)
-
-[node name="BowlingPin5" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, -0.5, 10)
-
-[node name="BowlingPin6" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.5, 10)
-
-[node name="BowlingPin7" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, -0.5, 11)
-
-[node name="BowlingPin8" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -0.5, 11)
-
-[node name="BowlingPin9" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.5, 11)
-
-[node name="BowlingPin10" parent="map/Alley" instance=ExtResource("5_xim7v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -0.5, 11)
+[node name="bowling_lane" parent="." instance=ExtResource("5_s4er6")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5, 0, 5)
 
 [node name="player" parent="." instance=ExtResource("5_kcbut")]
 

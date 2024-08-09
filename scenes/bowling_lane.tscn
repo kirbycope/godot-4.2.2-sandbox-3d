@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://wngyd8wm6j7q"]
+
+[ext_resource type="PackedScene" uid="uid://cuf000dx8uksg" path="res://scenes/bowling_ball.tscn" id="1_ev7h6"]
+[ext_resource type="PackedScene" uid="uid://bhbsaotqck73q" path="res://scenes/bowling_pin.tscn" id="2_u7o16"]
+
+[node name="bowling_lane" type="Node3D"]
+
+[node name="BowlingBall" parent="." instance=ExtResource("1_ev7h6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="BowlingPin1" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="BowlingPin2" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -7)
+
+[node name="BowlingPin3" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -7)
+
+[node name="BowlingPin4" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -8)
+
+[node name="BowlingPin5" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="BowlingPin6" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -8)
+
+[node name="BowlingPin7" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -9)
+
+[node name="BowlingPin8" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -9)
+
+[node name="BowlingPin9" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -9)
+
+[node name="BowlingPin10" parent="." instance=ExtResource("2_u7o16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -9)
