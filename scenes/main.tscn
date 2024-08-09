@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=24 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="5_kcbut"]
 [ext_resource type="PackedScene" uid="uid://wngyd8wm6j7q" path="res://scenes/bowling_lane.tscn" id="5_s4er6"]
 [ext_resource type="PackedScene" uid="uid://dqsyxd6bsj53b" path="res://scenes/npc.tscn" id="8_sat73"]
+[ext_resource type="PackedScene" uid="uid://byn124bn46xi7" path="res://scenes/coin.tscn" id="9_2ieek"]
 [ext_resource type="PackedScene" uid="uid://c01lsik8n2ajy" path="res://scenes/mojang/plains_small_house_6.tscn" id="9_rxpdv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eehnh"]
@@ -194,3 +195,6 @@ transform = Transform3D(-0.0910497, 0, 0.995846, 0, 1, 0, -0.995846, 0, -0.09104
 
 [node name="plains_small_house_6" parent="." instance=ExtResource("9_rxpdv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -15)
+
+[node name="coin" parent="." instance=ExtResource("9_2ieek")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -2)

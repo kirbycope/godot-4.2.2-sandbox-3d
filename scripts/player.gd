@@ -53,6 +53,7 @@ var timer_jump := 0.0 # Timer for double-jump to stop flying
 ## The gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -61,6 +62,7 @@ func _ready() -> void:
 	
 	# Hide the debug menu
 	debug.visible = false
+
 
 ## Called once for every event before _unhandled_input(), allowing you to consume some events.
 func _input(event) -> void:
@@ -136,6 +138,7 @@ func _input(event) -> void:
 		# [sprint] button release
 		if event.is_action_released("sprint"):
 			is_sprinting = false
+
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
@@ -323,6 +326,7 @@ func _physics_process(delta) -> void:
 			if Input.is_action_pressed(action):
 				camera_rotate_by_controller(delta)
 
+
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	
@@ -348,6 +352,7 @@ func _process(_delta: float) -> void:
 		game_paused = !game_paused
 		# Toggle mouse capture
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if game_paused else Input.MOUSE_MODE_CAPTURED)
+
 
 ## Check if the kick hits anything.
 func check_kick_collision():
@@ -385,6 +390,7 @@ func check_kick_collision():
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 0.0 , 1.0, 0.1)
 
+
 ## Checks if the thrown punch hits anything.
 func check_punch_collision():
 	# Get the RayCast3D
@@ -421,6 +427,7 @@ func check_punch_collision():
 		if vibration_enabled:
 			Input.start_joy_vibration(0, 1.0 , 0.0, 0.1)
 
+
 ## Rotate camera using the mouse motion.
 func camera_rotate_by_mouse(event: InputEvent):
 	# Update the player (visuals+camera) opposite the horizontal mouse motion
@@ -429,6 +436,7 @@ func camera_rotate_by_mouse(event: InputEvent):
 	visuals.rotate_y(deg_to_rad(event.relative.x*mouse_sensitivity_horizontal))
 	# Rotate the camera based on mouse motion (up/forward and down/backward)
 	camera.rotate_x(deg_to_rad(-event.relative.y*mouse_sensitivity_vertical))
+
 
 ## Rotate camera using the right-analog stick.
 func camera_rotate_by_controller(delta: float):
@@ -450,6 +458,7 @@ func camera_rotate_by_controller(delta: float):
 	# Rotate camera left and right
 	rotation_degrees.y = -camera_y_rotation
 
+
 ## Start the player flying
 func flying_start():
 	gravity = 0.0
@@ -457,6 +466,7 @@ func flying_start():
 	position.y += 0.1
 	velocity.y = 0.0
 	is_flying = true
+
 
 ## Stop the player flying
 func flying_stop():
