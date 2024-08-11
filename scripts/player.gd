@@ -135,10 +135,18 @@ func _input(event) -> void:
 			is_animation_locked = true
 			# Flag the player as "punching with their left arm"
 			is_punching_left = true
-			# Check if the animation player is not already playing the appropriate animation
-			if animation_player.current_animation != "Punching_Left":
-				# Play the left "punching" animation
-				animation_player.play("Punching_Left")
+			# Check if the player is crouching
+			if is_crouching:
+				# Check if the animation player is not already playing the appropriate animation
+				if animation_player.current_animation != "Punching_Low_Left":
+					# Play the left, low "punching" animation
+					animation_player.play("Punching_Low_Left")
+			# The player should be standing
+			else:
+				# Check if the animation player is not already playing the appropriate animation
+				if animation_player.current_animation != "Punching_Left":
+					# Play the left "punching" animation
+					animation_player.play("Punching_Left")
 			# Check the punch hits something
 			check_punch_collision()
 		
@@ -148,10 +156,18 @@ func _input(event) -> void:
 			is_animation_locked = true
 			# Flag the player as "punching with their right arm"
 			is_punching_right = true
-			# Check if the animation player is not already playing the appropriate animation
-			if animation_player.current_animation != "Punching_Right":
-				# Play the right "punching" animation
-				animation_player.play("Punching_Right")
+			# Check if the player is crouching
+			if is_crouching:
+				# Check if the animation player is not already playing the appropriate animation
+				if animation_player.current_animation != "Punching_Low_Right":
+					# Play the right, low "punching" animation
+					animation_player.play("Punching_Low_Right")
+			# The player should be standing
+			else:
+				# Check if the animation player is not already playing the appropriate animation
+				if animation_player.current_animation != "Punching_Right":
+					# Play the right "punching" animation
+					animation_player.play("Punching_Right")
 			# Check the punch hits something
 			check_punch_collision()
 		
