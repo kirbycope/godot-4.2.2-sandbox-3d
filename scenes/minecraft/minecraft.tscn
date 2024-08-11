@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://4q00i81t4vp3"]
 
-[ext_resource type="Script" path="res://scripts/mojang/minecraft.gd" id="1_bn8vy"]
+[ext_resource type="Script" path="res://scripts/minecraft/minecraft.gd" id="1_bn8vy"]
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="2_fx88r"]
 [ext_resource type="PackedScene" uid="uid://q1naxiluxpwg" path="res://scenes/minecraft/steve.tscn" id="3_a2hjn"]
 
