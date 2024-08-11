@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhbsaotqck73q"]
+
+[ext_resource type="PackedScene" uid="uid://252hc6hml40f" path="res://assets/bowling/bowling_pin/BowlingPin.fbx" id="1_3khyf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hadlg"]
+radius = 0.35
+
+[node name="BowlingPin" type="RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_hadlg")
+
+[node name="visuals" type="Node3D" parent="."]
+
+[node name="Root Scene" parent="visuals" instance=ExtResource("1_3khyf")]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)

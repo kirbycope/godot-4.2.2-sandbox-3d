@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://22er1s8pm63h"]
+
+[ext_resource type="Texture2D" uid="uid://ouehmdb3ddrc" path="res://assets/minecraft/textures/cobblestone.png" id="1_ou6go"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1w01e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n83iv"]
+albedo_texture = ExtResource("1_ou6go")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_3433y"]
+material = SubResource("StandardMaterial3D_n83iv")
+
+[node name="cobbletone" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1w01e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_3433y")

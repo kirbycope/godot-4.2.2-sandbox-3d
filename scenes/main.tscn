@@ -1,15 +1,15 @@
 [gd_scene load_steps=25 format=3 uid="uid://70xuywm6if8a"]
 
-[ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney_prototype-textures/Dark/texture_05.png" id="1_gldpe"]
-[ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney_prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
-[ext_resource type="Texture2D" uid="uid://dyyc6yygcktff" path="res://assets/kenney_prototype-textures/Purple/texture_09.png" id="3_swof7"]
-[ext_resource type="Texture2D" uid="uid://c17i3a7oeh6sq" path="res://assets/kenney_prototype-textures/Green/texture_09.png" id="4_hpcia"]
+[ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney/prototype-textures/Dark/texture_05.png" id="1_gldpe"]
+[ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney/prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
+[ext_resource type="Texture2D" uid="uid://dyyc6yygcktff" path="res://assets/kenney/prototype-textures/Purple/texture_09.png" id="3_swof7"]
+[ext_resource type="Texture2D" uid="uid://c17i3a7oeh6sq" path="res://assets/kenney/prototype-textures/Green/texture_09.png" id="4_hpcia"]
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="5_kcbut"]
-[ext_resource type="PackedScene" uid="uid://wngyd8wm6j7q" path="res://scenes/bowling_lane.tscn" id="5_s4er6"]
+[ext_resource type="PackedScene" uid="uid://wngyd8wm6j7q" path="res://scenes/bowling/bowling_lane.tscn" id="5_s4er6"]
 [ext_resource type="PackedScene" uid="uid://dqsyxd6bsj53b" path="res://scenes/npc.tscn" id="8_sat73"]
-[ext_resource type="PackedScene" uid="uid://om20p6x1frig" path="res://scenes/coins.tscn" id="9_fno42"]
-[ext_resource type="PackedScene" uid="uid://c01lsik8n2ajy" path="res://scenes/mojang/plains_small_house_6.tscn" id="9_rxpdv"]
-[ext_resource type="PackedScene" uid="uid://d4k3y8ltvfa3m" path="res://scenes/coins_2.tscn" id="10_477ww"]
+[ext_resource type="PackedScene" uid="uid://om20p6x1frig" path="res://scenes/mario/coins.tscn" id="9_fno42"]
+[ext_resource type="PackedScene" uid="uid://c01lsik8n2ajy" path="res://scenes/minecraft/plains_small_house_6.tscn" id="9_rxpdv"]
+[ext_resource type="PackedScene" uid="uid://d4k3y8ltvfa3m" path="res://scenes/mario/coins_2.tscn" id="10_477ww"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eehnh"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)

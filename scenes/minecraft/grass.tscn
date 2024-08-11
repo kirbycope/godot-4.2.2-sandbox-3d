@@ -1,0 +1,109 @@
+[gd_scene load_steps=17 format=3 uid="uid://js08ab2qmyrs"]
+
+[ext_resource type="Texture2D" uid="uid://bcdjuvxp4kk2r" path="res://assets/minecraft/textures/grass_carried.png" id="1_x7abc"]
+[ext_resource type="Texture2D" uid="uid://bm6d55gnh87nn" path="res://assets/minecraft/textures/dirt.png" id="2_3cej4"]
+[ext_resource type="Texture2D" uid="uid://dhl82ay4kme61" path="res://assets/minecraft/textures/grass_side_carried.png" id="3_8vqph"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_imnxo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_essff"]
+cull_mode = 2
+albedo_texture = ExtResource("1_x7abc")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_v0are"]
+material = SubResource("StandardMaterial3D_essff")
+size = Vector2(1, 1)
+center_offset = Vector3(0, 0.5, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qxp78"]
+cull_mode = 2
+albedo_texture = ExtResource("2_3cej4")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2pylr"]
+material = SubResource("StandardMaterial3D_qxp78")
+flip_faces = true
+size = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tnq4i"]
+cull_mode = 2
+albedo_texture = ExtResource("3_8vqph")
+uv1_offset = Vector3(0, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gjvg7"]
+material = SubResource("StandardMaterial3D_tnq4i")
+flip_faces = true
+size = Vector2(1, 1)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ras5t"]
+cull_mode = 2
+albedo_texture = ExtResource("3_8vqph")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_63e5l"]
+material = SubResource("StandardMaterial3D_ras5t")
+size = Vector2(1, 1)
+orientation = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j0ajc"]
+cull_mode = 2
+albedo_texture = ExtResource("3_8vqph")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wwe75"]
+material = SubResource("StandardMaterial3D_j0ajc")
+size = Vector2(1, 1)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wvlnt"]
+cull_mode = 2
+albedo_texture = ExtResource("3_8vqph")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_61jqo"]
+material = SubResource("StandardMaterial3D_wvlnt")
+flip_faces = true
+size = Vector2(1, 1)
+orientation = 0
+
+[node name="grass" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_imnxo")
+
+[node name="top" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_v0are")
+
+[node name="bottom" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("PlaneMesh_2pylr")
+
+[node name="north" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("PlaneMesh_gjvg7")
+
+[node name="east" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("PlaneMesh_63e5l")
+
+[node name="south" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("PlaneMesh_wwe75")
+
+[node name="west" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+mesh = SubResource("PlaneMesh_61jqo")

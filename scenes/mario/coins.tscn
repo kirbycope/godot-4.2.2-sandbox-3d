@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://om20p6x1frig"]
+
+[ext_resource type="PackedScene" uid="uid://byn124bn46xi7" path="res://scenes/mario/coin.tscn" id="1_rgr23"]
+
+[node name="coins" type="Node3D"]
+
+[node name="coin" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -2.5)
+
+[node name="coin2" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -1.5)
+
+[node name="coin3" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.5)
+
+[node name="coin4" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.5)
+
+[node name="coin5" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 1.5)
+
+[node name="coin6" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 2.5)
+
+[node name="coin7" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -2.5)
+
+[node name="coin8" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -1.5)
+
+[node name="coin9" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.5)
+
+[node name="coin10" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0.5)
+
+[node name="coin11" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 1.5)
+
+[node name="coin12" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 2.5)
+
+[node name="coin13" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -2.5)
+
+[node name="coin14" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -1.5)
+
+[node name="coin15" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, -0.5)
+
+[node name="coin16" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0.5)
+
+[node name="coin17" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 1.5)
+
+[node name="coin18" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 2.5)
+
+[node name="coin19" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, -2.5)
+
+[node name="coin20" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, -1.5)
+
+[node name="coin21" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, -0.5)
+
+[node name="coin22" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 0.5)
+
+[node name="coin23" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 1.5)
+
+[node name="coin24" parent="." instance=ExtResource("1_rgr23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 2.5)
