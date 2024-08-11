@@ -1,14 +1,14 @@
 extends CharacterBody3D
 
-# Note: `@export` variables to make them available in the Godot Inspector.
+# Note: `@export` variables are available for editing in the property editor.
 @export var double_jump_enabled := false
 @export var flying_enabled := false
-@export var force_kicking := 0.4
-@export var force_kicking_sprinting := 0.8
-@export var force_punching := 0.2
-@export var force_punching_sprinting := 0.4
-@export var force_pushing  := 0.1
-@export var force_pushing_sprinting  := 0.2
+@export var force_kicking := 2.0
+@export var force_kicking_sprinting := 3.0
+@export var force_punching := 1.0
+@export var force_punching_sprinting := 1.5
+@export var force_pushing  := 1.0
+@export var force_pushing_sprinting  := 2.0
 @export var look_sensitivity := 120.0
 @export var mouse_sensitivity_horizontal := 0.2
 @export var mouse_sensitivity_vertical := 0.2
@@ -23,7 +23,8 @@ extends CharacterBody3D
 # Note: `@onready` variables are set when the scene is loaded.
 @onready var animation_player = $visuals/AuxScene/AnimationPlayer
 @onready var camera = $camera_mount
-@onready var debug = $camera_mount/Camera3D/debug
+@onready var camera_raycast = $camera_mount/RayCast3D
+@onready var debug_menu = $camera_mount/Camera3D/debug
 @onready var debug_double_jump = $camera_mount/Camera3D/debug/OptionCheckBox1
 @onready var debug_flying = $camera_mount/Camera3D/debug/OptionCheckBox2
 @onready var debug_vibration = $camera_mount/Camera3D/debug/OptionCheckBox3
@@ -61,7 +62,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	# Hide the debug menu
-	debug.visible = false
+	debug_menu.visible = false
 
 
 ## Called once for every event before _unhandled_input(), allowing you to consume some events.
@@ -69,7 +70,7 @@ func _input(event) -> void:
 	
 	# Toggle "debug" visibility
 	if event.is_action_pressed("debug"):
-		debug.visible = !debug.visible
+		debug_menu.visible = !debug_menu.visible
 	
 	# If the game is not paused...
 	if !game_paused:
@@ -142,7 +143,7 @@ func _input(event) -> void:
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
 func _physics_process(delta) -> void:
-	
+#
 		# Set movement speed according to player's action and location
 	if is_crouching:
 		player_current_speed = player_crawling_speed
@@ -303,22 +304,8 @@ func _physics_process(delta) -> void:
 		if !is_animation_locked:
 			# Move player, checking for collision
 			if move_and_slide():
-				# Check each collision
-				for i in get_slide_collision_count():
-					# Get the collision at index `i`
-					var collision = get_slide_collision(i)
-					# Get the position of the current collision
-					var collision_position = collision.get_position()
-					# Get the object being collieded with
-					var collider = collision.get_collider()
-					# Check collider is a physics object
-					if collider is RigidBody3D:
-						# Define the force to apply to the collided object
-						var force = force_pushing_sprinting if is_sprinting else force_pushing
-						var impulse = -collision.get_normal() * (force*50) * delta
-						var position = collision_position - collider.global_position
-						# Apply the force to the collided object
-						collider.apply_impulse(impulse, position)
+				# Check each collision for RigidBody3D
+				check_collision_rigidbody3d(delta)
 		
 		# Handle [look_*] using controller
 		var look_actions = ["look_down", "look_up", "look_left", "look_right"]
@@ -331,7 +318,7 @@ func _physics_process(delta) -> void:
 func _process(_delta: float) -> void:
 	
 	# Handle [debug] options
-	if debug.visible:
+	if debug_menu.visible:
 		# Toggle double-jump
 		double_jump_enabled = debug_double_jump.button_pressed
 		# Toggle flying
@@ -354,6 +341,27 @@ func _process(_delta: float) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if game_paused else Input.MOUSE_MODE_CAPTURED)
 
 
+# Check if the player (CharacterBody3D) is colliding with a RigidBody3D and apply physics.
+func check_collision_rigidbody3d(delta):
+	for i in get_slide_collision_count():
+		# Get the collision at index `i`
+		var collision = get_slide_collision(i)
+		# Get the position of the current collision
+		var collision_position = collision.get_position()
+		# Get the object being collieded with
+		var collider = collision.get_collider()
+		# Check collider is a physics object
+		if collider is RigidBody3D:
+			# Enable physics
+			collider.freeze = false
+			# Define the force to apply to the collided object
+			var force = force_pushing if is_sprinting else force_pushing
+			# Define the impulse to apply
+			var impulse = collision_position - collider.global_position
+			# Apply the force to the object
+			collider.apply_central_impulse(-impulse * force)
+
+
 ## Check if the kick hits anything.
 func check_kick_collision():
 	# Get the RayCast3D
@@ -362,6 +370,8 @@ func check_kick_collision():
 	if raycast.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast.get_collider()
+		# Get the position of the current collision
+		var collision_position = raycast.get_collision_point()
 		# Delay execution
 		await get_tree().create_timer(0.5).timeout
 		# Unlock the animation player
@@ -373,8 +383,10 @@ func check_kick_collision():
 		if collider is RigidBody3D:
 			# Define the force to apply to the collided object
 			var force = force_kicking_sprinting if is_sprinting else force_kicking
-			# Apply the force to the collided object
-			collider.apply_impulse((collider.position - position) * force)
+			# Define the impulse to apply
+			var impulse = collision_position - collider.global_position
+			# Apply the force to the object
+			collider.apply_central_impulse(-impulse * force)
 		# Call character functions
 		if collider is CharacterBody3D:
 			# Check side
@@ -399,6 +411,8 @@ func check_punch_collision():
 	if raycast.is_colliding():
 		# Get the object the RayCast is colliding with
 		var collider = raycast.get_collider()
+		# Get the position of the current collision
+		var collision_position = raycast.get_collision_point()
 		# Delay execution
 		await get_tree().create_timer(0.3).timeout
 		# Unlock the animation player
@@ -409,9 +423,11 @@ func check_punch_collision():
 		# Apply force to RigidBody3D objects
 		if collider is RigidBody3D:
 			# Define the force to apply to the collided force_punching
-			var force = force_punching_sprinting if is_sprinting else force_kicking
-			# Apply the force to the collided object
-			collider.apply_impulse((collider.position - position) * force)
+			var force = force_punching_sprinting if is_sprinting else force_punching
+			# Define the impulse to apply
+			var impulse = collision_position - collider.global_position
+			# Apply the force to the object
+			collider.apply_central_impulse(-impulse * force)
 		# Call character functions
 		if collider is CharacterBody3D:
 			# Check side
