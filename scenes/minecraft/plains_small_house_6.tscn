@@ -1,25 +1,38 @@
-[gd_scene load_steps=8 format=3 uid="uid://c01lsik8n2ajy"]
+[gd_scene load_steps=9 format=3 uid="uid://c01lsik8n2ajy"]
 
-[ext_resource type="PackedScene" uid="uid://d1m82wt4ykwg0" path="res://scenes/minecraft/dirt.tscn" id="1_aa5c7"]
+[ext_resource type="PackedScene" uid="uid://js08ab2qmyrs" path="res://scenes/minecraft/grass.tscn" id="1_gej58"]
 [ext_resource type="PackedScene" uid="uid://v7taclvo4ske" path="res://scenes/minecraft/planks_oak.tscn" id="2_d1iwj"]
 [ext_resource type="PackedScene" uid="uid://wv7lglj5g8cn" path="res://scenes/minecraft/log_oak.tscn" id="3_q18qg"]
 [ext_resource type="PackedScene" uid="uid://22er1s8pm63h" path="res://scenes/minecraft/cobblestone.tscn" id="4_2qp2p"]
 [ext_resource type="PackedScene" uid="uid://bolrvwxqqhpeo" path="res://scenes/minecraft/glass.tscn" id="5_aku4f"]
-[ext_resource type="PackedScene" uid="uid://by8qlw0cyh2sa" path="res://scenes/minecraft/wood_door_lower.tscn" id="5_nuflm"]
-[ext_resource type="PackedScene" uid="uid://bijrnn3acbop2" path="res://scenes/minecraft/wood_door_upper.tscn" id="6_tiryj"]
+[ext_resource type="PackedScene" uid="uid://b3gcwke4nw67r" path="res://scenes/minecraft/door_wood.tscn" id="5_c6bhw"]
+[ext_resource type="PackedScene" uid="uid://bnwj3eqcw05d1" path="res://scenes/minecraft/trapdoor.tscn" id="5_q2ppk"]
+[ext_resource type="PackedScene" uid="uid://8r7j6jsna4q8" path="res://scenes/minecraft/flower_rose.tscn" id="7_2ijff"]
 
 [node name="plains_small_house_6" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="layer_1" type="Node3D" parent="."]
 
-[node name="dirt" parent="layer_1" instance=ExtResource("1_aa5c7")]
+[node name="trapdoor" parent="layer_1" instance=ExtResource("5_q2ppk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3.6)
+
+[node name="trapdoor2" parent="layer_1" instance=ExtResource("5_q2ppk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.6, 0, 3)
+
+[node name="grass" parent="layer_1" instance=ExtResource("1_gej58")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 3)
 
 [node name="planks_oak" parent="layer_1" instance=ExtResource("2_d1iwj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 
-[node name="dirt2" parent="layer_1" instance=ExtResource("1_aa5c7")]
+[node name="trapdoor3" parent="layer_1" instance=ExtResource("5_q2ppk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3.6)
+
+[node name="trapdoor4" parent="layer_1" instance=ExtResource("5_q2ppk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.6, 0, 3)
+
+[node name="grass2" parent="layer_1" instance=ExtResource("1_gej58")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3)
 
 [node name="log_oak" parent="layer_1" instance=ExtResource("3_q18qg")]
@@ -101,11 +114,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 [node name="log_oak" parent="layer_2" instance=ExtResource("3_q18qg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
 
+[node name="door_wood" parent="layer_2" instance=ExtResource("5_c6bhw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 2.4)
+
 [node name="planks_oak" parent="layer_2" instance=ExtResource("2_d1iwj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 2)
-
-[node name="wood_door_lower" parent="layer_2" instance=ExtResource("5_nuflm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
 [node name="planks_oak2" parent="layer_2" instance=ExtResource("2_d1iwj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 2)
@@ -146,6 +159,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
 [node name="log_oak4" parent="layer_2" instance=ExtResource("3_q18qg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -2)
 
+[node name="flower_rose" parent="layer_2" instance=ExtResource("7_2ijff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 3)
+
+[node name="flower_rose2" parent="layer_2" instance=ExtResource("7_2ijff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3)
+
 [node name="layer_3" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
@@ -154,9 +173,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 2)
 
 [node name="planks_oak" parent="layer_3" instance=ExtResource("2_d1iwj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 2)
-
-[node name="wood_door_upper" parent="layer_3" instance=ExtResource("6_tiryj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
 
 [node name="planks_oak2" parent="layer_3" instance=ExtResource("2_d1iwj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 2)

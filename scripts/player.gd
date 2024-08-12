@@ -406,6 +406,40 @@ func _process(_delta: float) -> void:
 	
 	# Handle [debug] options
 	if debug_ui.visible:
+		# Minecraft
+		$camera_mount/Camera3D/debug/app_version.text = ProjectSettings.get("application/config/name")
+		var godot_version = Engine.get_version_info()
+		var version_string = "Godot: %d.%d.%d" % [godot_version["major"], godot_version["minor"], godot_version["patch"]]
+		$camera_mount/Camera3D/debug/engine_version.text = version_string
+		var fps = Engine.get_frames_per_second()
+		var target_fps = Engine.max_fps
+		var vsync = "vsync" if ProjectSettings.get("display/window/vsync/vsync_mode") else ""
+		var frame = "%s fps T: %s %s" % [fps, target_fps, vsync]
+		$camera_mount/Camera3D/debug/frame.text = frame
+		var used_memory = Performance.get_monitor(Performance.MEMORY_STATIC)
+		var max_memory = Performance.get_monitor(Performance.MEMORY_STATIC_MAX)
+		var used_memory_mb = used_memory / 1024 / 1024
+		var max_memory_mb = max_memory / 1024 / 1024
+		var memory = "Mem: %d/%d MB" % [used_memory_mb, max_memory_mb]
+		$camera_mount/Camera3D/debug/memory.text = memory
+		var coordinates = "XYZ: %.1f / %.1f / %.1f" % [position.x, position.y, position.z]
+		$camera_mount/Camera3D/debug/coordinates.text = coordinates
+		# Get the player's direction vector
+		var direction = Vector2(cos(rotation.y), sin(rotation.y)).normalized()
+		# Determine the cardinal direction
+		var angle = direction.angle()
+		# Convert the angle to degrees for easier comparison
+		var angle_degrees = rad_to_deg(angle)
+		var cardinal_direction = ""
+		if angle_degrees >= -45 and angle_degrees < 45:
+			cardinal_direction = "North"
+		elif angle_degrees >= 45 and angle_degrees < 135:
+			cardinal_direction = "West"
+		elif angle_degrees >= 135 or angle_degrees < -135:
+			cardinal_direction = "South"
+		else:
+			cardinal_direction = "East"
+		$camera_mount/Camera3D/debug/facing.text = "Facing: " + cardinal_direction
 		## Panel 1
 		# Toggle double-jump
 		enable_double_jump = $camera_mount/Camera3D/debug/Panel/OptionCheckBox1.button_pressed

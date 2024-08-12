@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://8r7j6jsna4q8"]
+
+[ext_resource type="Texture2D" uid="uid://c1era2ke53xbv" path="res://assets/minecraft/textures/flower_rose.png" id="1_3btdl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kx8tu"]
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("1_3btdl")
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pveds"]
+material = SubResource("StandardMaterial3D_kx8tu")
+size = Vector2(1, 1)
+
+[node name="flower_rose" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 3.09086e-08, 0, -4.37114e-08, -1, 0.707107, 0.707107, -3.09086e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_pveds")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0.707107, -3.09086e-08, 0, -4.37114e-08, -1, -0.707107, 0.707107, -3.09086e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_pveds")
