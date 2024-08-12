@@ -1,0 +1,206 @@
+[gd_scene load_steps=3 format=3 uid="uid://dehnrogx5h5ag"]
+
+[ext_resource type="PackedScene" uid="uid://wv7lglj5g8cn" path="res://scenes/minecraft/log_oak.tscn" id="1_pawtp"]
+[ext_resource type="PackedScene" uid="uid://bni0v244b43pq" path="res://scenes/minecraft/leaves_oak.tscn" id="2_t5rj0"]
+
+[node name="oak_tree_normal" type="Node3D"]
+
+[node name="log_oak" parent="." instance=ExtResource("1_pawtp")]
+
+[node name="log_oak2" parent="." instance=ExtResource("1_pawtp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="log_oak3" parent="." instance=ExtResource("1_pawtp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="leaves_oak" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 1)
+
+[node name="leaves_oak2" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 2)
+
+[node name="leaves_oak3" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 1)
+
+[node name="leaves_oak4" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2)
+
+[node name="leaves_oak20" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 2)
+
+[node name="leaves_oak21" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 1)
+
+[node name="leaves_oak22" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
+
+[node name="leaves_oak23" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -1)
+
+[node name="leaves_oak24" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -2)
+
+[node name="leaves_oak5" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 1)
+
+[node name="leaves_oak13" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 0)
+
+[node name="leaves_oak14" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 0)
+
+[node name="leaves_oak6" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 2)
+
+[node name="leaves_oak7" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+
+[node name="leaves_oak8" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1)
+
+[node name="leaves_oak9" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -2)
+
+[node name="leaves_oak10" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -1)
+
+[node name="leaves_oak11" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -2)
+
+[node name="leaves_oak15" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -2)
+
+[node name="leaves_oak16" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -1)
+
+[node name="leaves_oak17" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 0)
+
+[node name="leaves_oak18" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 1)
+
+[node name="leaves_oak19" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 2)
+
+[node name="leaves_oak12" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -1)
+
+[node name="log_oak4" parent="." instance=ExtResource("1_pawtp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="log_oak5" parent="." instance=ExtResource("1_pawtp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="leaves_oak25" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 1)
+
+[node name="leaves_oak26" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 2)
+
+[node name="leaves_oak27" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 1)
+
+[node name="leaves_oak28" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 2)
+
+[node name="leaves_oak29" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 2)
+
+[node name="leaves_oak30" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 1)
+
+[node name="leaves_oak31" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, 0)
+
+[node name="leaves_oak32" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, -1)
+
+[node name="leaves_oak33" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, -2)
+
+[node name="leaves_oak34" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 1)
+
+[node name="leaves_oak35" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 0)
+
+[node name="leaves_oak36" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, 0)
+
+[node name="leaves_oak49" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 0)
+
+[node name="leaves_oak60" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5, 0)
+
+[node name="leaves_oak50" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 0)
+
+[node name="leaves_oak51" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 1)
+
+[node name="leaves_oak52" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 1)
+
+[node name="leaves_oak58" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 1)
+
+[node name="leaves_oak53" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 4, 1)
+
+[node name="leaves_oak54" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 4, 0)
+
+[node name="leaves_oak59" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 5, 0)
+
+[node name="leaves_oak55" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 4, -1)
+
+[node name="leaves_oak56" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -1)
+
+[node name="leaves_oak61" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -1)
+
+[node name="leaves_oak62" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="leaves_oak57" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, -1)
+
+[node name="leaves_oak37" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 2)
+
+[node name="leaves_oak38" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -2)
+
+[node name="leaves_oak39" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -1)
+
+[node name="leaves_oak40" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -2)
+
+[node name="leaves_oak41" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -1)
+
+[node name="leaves_oak42" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, -2)
+
+[node name="leaves_oak43" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, -2)
+
+[node name="leaves_oak44" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, -1)
+
+[node name="leaves_oak45" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 0)
+
+[node name="leaves_oak46" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 1)
+
+[node name="leaves_oak47" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3, 2)
+
+[node name="leaves_oak48" parent="." instance=ExtResource("2_t5rj0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, -1)

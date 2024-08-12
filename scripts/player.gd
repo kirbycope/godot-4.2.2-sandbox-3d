@@ -1,12 +1,10 @@
 extends CharacterBody3D
 
-var mouse_sensitivity_horizontal := 0.2
-var mouse_sensitivity_vertical := 0.2
-
 # Note: `@export` variables are available for editing in the property editor.
 @export var controller_look_sensitivity := 120.0 # Sets the controller's look sensitivity
 @export var enable_double_jump := false # Tracks if double-jump is enabled
 @export var enable_vibration := false # Tracks if controller vibration is enabled
+@export var enable_ui := false # Tracks is the UI is enabled
 @export var enable_flying := false # Tracks if flying is enabled
 @export var force_kicking := 2.0 # Sets the force for the player's kick
 @export var force_kicking_sprinting := 3.0 # Sets the force for the player's kick, while sprinting
@@ -14,6 +12,9 @@ var mouse_sensitivity_vertical := 0.2
 @export var force_punching_sprinting := 1.5 # Sets the force for the player's punch, while sprinting
 @export var force_pushing  := 1.0 # Sets the force for the player's push
 @export var force_pushing_sprinting  := 2.0 # Sets the force for the player's push, while sprinting
+@export var mouse_sensitivity_horizontal := 0.2 # Set's the mouse's horizontal look sensitivity
+@export var mouse_sensitivity_vertical := 0.2 # Set's the mouse's vertical look sensitivity
+@export var perspective := 0 # Tracks the perspective of the player (0=third, 1=first, 2=second?)
 @export var player_crawling_speed := 0.75 # Sets the player's crawling speed
 @export var player_current_speed := 3.0 # Tracks the player's current speed
 @export var player_jump_velocity := 4.5 # Sets the player's jump velocity
@@ -22,7 +23,7 @@ var mouse_sensitivity_vertical := 0.2
 @export var player_sprinting_speed := 5.0 # Sets the player's sprinting speed
 @export var player_walking_speed := 2.5 # Sets the player's walking speed
 
-var animations_crouching = [ "Crawling_InPlace" , "Crouching_Idle"] # List of "crouching" (and crawling) animations
+var animations_crouching = [ "Crawling_InPlace", "Crouching_Idle"] # List of "crouching" (and crawling) animations
 var animations_jumping = [ "Falling_Idle" ] # List of "jumping" (and falling) animations
 var animations_flying = [ "Flying" ] # List of "flying" (and hovering) animations
 var camera_y_rotation := 0.0 # Tracks the camera's roration along the veritcal axis, in relation to the player
@@ -45,12 +46,8 @@ var timer_jump := 0.0 # Timer for double-jump to stop flying
 @onready var animation_player = $visuals/AuxScene/AnimationPlayer
 @onready var camera = $camera_mount
 @onready var camera_raycast = $camera_mount/RayCast3D
-@onready var debug_menu = $camera_mount/Camera3D/debug
-@onready var debug_double_jump = $camera_mount/Camera3D/debug/Panel/OptionCheckBox1
-@onready var debug_flying = $camera_mount/Camera3D/debug/Panel/OptionCheckBox2
-@onready var debug_vibration = $camera_mount/Camera3D/debug/Panel/OptionCheckBox3
-@onready var debug_action = $camera_mount/Camera3D/debug/Panel/LastActionTextEdit
-@onready var debug_animation = $camera_mount/Camera3D/debug/Panel/CurrentAnimationTextEdit
+@onready var chat_input = $camera_mount/Camera3D/ui/chat/input
+@onready var debug_ui = $camera_mount/Camera3D/debug
 @onready var visuals = $visuals
 
 ## The gravity from the project settings to be synced with RigidBody nodes.
@@ -62,6 +59,10 @@ func _ready() -> void:
 	
 	# Disable the mouse pointer and capture the motion
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	# DEBUGGING STUFF
+	$camera_mount/Camera3D/debug.visible = false
+	$camera_mount/Camera3D/ui.visible = false
 
 
 ## Called once for every event before _unhandled_input(), allowing you to consume some events.
@@ -71,7 +72,7 @@ func _input(event) -> void:
 	# [debug] button _pressed_
 	if event.is_action_pressed("debug"):
 		# Toggle "debug" visibility
-		debug_menu.visible = !debug_menu.visible
+		debug_ui.visible = !debug_ui.visible
 	
 	# If the game is not paused...
 	if !game_paused:
@@ -80,6 +81,38 @@ func _input(event) -> void:
 		if event is InputEventMouseMotion:
 			# Rotate camera based on mouse movement
 			camera_rotate_by_mouse(event)
+		
+		# [chat] button _pressed_
+		if event.is_action_pressed("chat"):
+			# Check if the UI is enabled
+			if enable_ui:
+				# Check if the chat input is already visible
+				if chat_input.visible:
+					# Release focus on chat input
+					chat_input.release_focus()
+					# Get the chat input context
+					var input = chat_input.text
+				# The chat input not yet displayed
+				else:
+					# Set focus on the chat input
+					chat_input.grab_focus()
+					# Set the text content
+					chat_input.text = ""
+				# Toggle chat input visibility
+				chat_input.visible = !chat_input.visible
+	
+		# [command] button _pressed_
+		if event.is_action_pressed("command"):
+			# Check if the UI is enabled
+			if enable_ui:
+				# Check if the chat input is not already visible
+				if !chat_input.visible:
+					# Toggle chat input visibility
+					chat_input.visible = !chat_input.visible
+					# Check if toggled on
+					if chat_input.visible:
+						# Set focus on the chat input
+						chat_input.grab_focus()
 		
 		# [crouch] button _pressed_ (and the animation player is not locked)
 		if event.is_action_pressed("crouch") and !is_animation_locked:
@@ -171,15 +204,37 @@ func _input(event) -> void:
 			# Check the punch hits something
 			check_punch_collision()
 		
+		# [perspective] button _pressed_
+		if event.is_action_pressed("perspective"):
+			# Check if in first-person
+			if perspective == 0:
+				# Flag the player as in "third" person
+				perspective = 1
+				# Set camera mount's position
+				camera.position = Vector3(0, 1.5, 0)
+				# Set camera's position
+				camera.get_node("Camera3D").position = Vector3(0, 0.6, 2.5)
+			elif perspective == 1:
+				# Flag the player as in "first" person
+				perspective = 0
+				# Set camera mount's position
+				camera.position = Vector3(0, 1.7, 0)
+				# Set camera's position
+				camera.get_node("Camera3D").position = Vector3(0, 0.0, 0.0)
+		
 		# [sprint] button _pressed_
 		if event.is_action_pressed("sprint"):
 			# Flag the player as "sprinting"
 			is_sprinting = true
 		
-		# [sprint] button release
+		# [sprint] button _released_
 		if event.is_action_released("sprint"):
 			# Flag the player as no longer "sprinting"
 			is_sprinting = false
+
+		# [ui] button _pressed_
+		if event.is_action_released("ui"):
+			print("[ui] button _pressed_")
 
 
 ## Called each physics frame with the time since the last physics frame as argument (delta, in seconds).
@@ -350,21 +405,21 @@ func _physics_process(delta) -> void:
 func _process(_delta: float) -> void:
 	
 	# Handle [debug] options
-	if debug_menu.visible:
+	if debug_ui.visible:
 		## Panel 1
 		# Toggle double-jump
-		enable_double_jump = debug_double_jump.button_pressed
+		enable_double_jump = $camera_mount/Camera3D/debug/Panel/OptionCheckBox1.button_pressed
 		# Toggle flying
-		enable_flying = debug_flying.button_pressed
+		enable_flying = $camera_mount/Camera3D/debug/Panel/OptionCheckBox2.button_pressed
 		# Toggle vibration
-		enable_vibration = debug_vibration.button_pressed
+		enable_vibration = $camera_mount/Camera3D/debug/Panel/OptionCheckBox3.button_pressed
 		# Update "Last action called:"
 		var input_map = InputMap.get_actions()
 		for action in input_map:
 			if Input.is_action_just_pressed(action):
-				debug_action.text = action
+				$camera_mount/Camera3D/debug/Panel/LastActionTextEdit.text = action
 		# Update "Current animation:"
-		debug_animation.text = animation_player.current_animation
+		$camera_mount/Camera3D/debug/Panel/CurrentAnimationTextEdit.text = animation_player.current_animation
 		## Panel 2
 		$camera_mount/Camera3D/debug/Panel2/CheckBox1.button_pressed = enable_double_jump
 		$camera_mount/Camera3D/debug/Panel2/CheckBox2.button_pressed = enable_flying
