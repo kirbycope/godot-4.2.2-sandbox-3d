@@ -218,7 +218,7 @@ func _input(event) -> void:
 				# Flag the player as in "first" person
 				perspective = 0
 				# Set camera mount's position
-				camera.position = Vector3(0, 1.7, 0)
+				camera.position = Vector3(0, 1.6, 0)
 				# Set camera's position
 				camera.get_node("Camera3D").position = Vector3(0, 0.0, 0.0)
 		
@@ -601,13 +601,13 @@ func debug_get_facing() -> String:
 	var angle_degrees = rad_to_deg(angle)
 	var cardinal_direction = ""
 	if angle_degrees >= -45 and angle_degrees < 45:
-		cardinal_direction = "North"
+		cardinal_direction = "North (Towards negative Z)"
 	elif angle_degrees >= 45 and angle_degrees < 135:
-		cardinal_direction = "West"
+		cardinal_direction = "west (Towards negative X)"
 	elif angle_degrees >= 135 or angle_degrees < -135:
-		cardinal_direction = "South"
+		cardinal_direction = "South (Towards positive Z)"
 	else:
-		cardinal_direction = "East"
+		cardinal_direction = "east (Towards positive X)"
 	return "Facing: " + cardinal_direction
 
 
@@ -655,7 +655,7 @@ func flying_stop():
 	is_flying = false
 
 
-## Set's the player's idle animation based on status.
+## Sets the player's idle animation based on status.
 func set_player_idle_animation():
 
 	# Check if the player is "crouching"
@@ -698,7 +698,7 @@ func set_player_idle_animation():
 			animation_player.play("Idle")
 
 
-## Set's the player's movement speed based on status.
+## Sets the player's movement speed based on status.
 func set_player_speed():
 	# Check if the player is crouching
 	if is_crouching:
