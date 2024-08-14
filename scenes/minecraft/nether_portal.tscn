@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://dldfp4dylaqge"]
+
+[ext_resource type="PackedScene" uid="uid://sfmvvh0w00ke" path="res://scenes/minecraft/obsidian.tscn" id="1_frs4e"]
+[ext_resource type="PackedScene" uid="uid://bdhryopgvwb4i" path="res://scenes/minecraft/portal.tscn" id="2_05rfq"]
+
+[node name="nether_portal" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="obsidian" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.5, 0)
+
+[node name="obsidian2" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, 0)
+
+[node name="obsidian3" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, 0)
+
+[node name="obsidian4" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 0)
+
+[node name="obsidian5" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.5, 0)
+
+[node name="obsidian6" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 3.5, 0)
+
+[node name="obsidian7" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 3.5, 0)
+
+[node name="obsidian8" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 3.5, 0)
+
+[node name="obsidian9" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.5, 0)
+
+[node name="obsidian10" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1.5, 0)
+
+[node name="obsidian11" parent="." instance=ExtResource("1_frs4e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, 0)
+
+[node name="portal" parent="." instance=ExtResource("2_05rfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, 0)
+
+[node name="portal2" parent="." instance=ExtResource("2_05rfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
+
+[node name="portal3" parent="." instance=ExtResource("2_05rfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 0)
+
+[node name="portal4" parent="." instance=ExtResource("2_05rfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.5, 0)
+
+[node name="portal5" parent="." instance=ExtResource("2_05rfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, 0)
+
+[node name="portal6" parent="." instance=ExtResource("2_05rfq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, 0)

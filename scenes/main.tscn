@@ -1,16 +1,15 @@
-[gd_scene load_steps=29 format=3 uid="uid://70xuywm6if8a"]
+[gd_scene load_steps=28 format=3 uid="uid://70xuywm6if8a"]
 
 [ext_resource type="Texture2D" uid="uid://ca0xl87ll3rc3" path="res://assets/kenney/prototype-textures/Dark/texture_05.png" id="1_gldpe"]
 [ext_resource type="Texture2D" uid="uid://cisx4v8m7c8c0" path="res://assets/kenney/prototype-textures/Orange/texture_09.png" id="2_ijdwe"]
 [ext_resource type="Texture2D" uid="uid://dyyc6yygcktff" path="res://assets/kenney/prototype-textures/Purple/texture_09.png" id="3_swof7"]
 [ext_resource type="Texture2D" uid="uid://c17i3a7oeh6sq" path="res://assets/kenney/prototype-textures/Green/texture_09.png" id="4_hpcia"]
+[ext_resource type="PackedScene" uid="uid://dldfp4dylaqge" path="res://scenes/minecraft/nether_portal.tscn" id="5_5hd4k"]
 [ext_resource type="PackedScene" uid="uid://bp0cb5mcfvo0v" path="res://scenes/player.tscn" id="5_kcbut"]
 [ext_resource type="PackedScene" uid="uid://wngyd8wm6j7q" path="res://scenes/bowling/bowling_lane.tscn" id="5_s4er6"]
 [ext_resource type="PackedScene" uid="uid://dqsyxd6bsj53b" path="res://scenes/npc.tscn" id="8_sat73"]
 [ext_resource type="PackedScene" uid="uid://om20p6x1frig" path="res://scenes/mario/coins.tscn" id="9_fno42"]
-[ext_resource type="PackedScene" uid="uid://c01lsik8n2ajy" path="res://scenes/minecraft/plains_small_house_6.tscn" id="9_rxpdv"]
 [ext_resource type="PackedScene" uid="uid://d4k3y8ltvfa3m" path="res://scenes/mario/coins_2.tscn" id="10_477ww"]
-[ext_resource type="PackedScene" uid="uid://dehnrogx5h5ag" path="res://scenes/minecraft/oak_tree_normal.tscn" id="11_r00kk"]
 [ext_resource type="Texture2D" uid="uid://ctqybeq3akmn1" path="res://assets/wikipedia/Compass_rose_en_04p (1).png" id="12_cuv2a"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eehnh"]
@@ -196,6 +195,9 @@ mesh = SubResource("BoxMesh_l5c01")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="map/RigidBody3D"]
 shape = SubResource("BoxShape3D_ja8am")
 
+[node name="nether_portal" parent="map" instance=ExtResource("5_5hd4k")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8, 0.5, -8)
+
 [node name="bowling_lane" parent="." instance=ExtResource("5_s4er6")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5, 0, 5)
 
@@ -204,17 +206,11 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5, 0,
 [node name="npc" parent="." instance=ExtResource("8_sat73")]
 transform = Transform3D(-0.0910497, 0, 0.995846, 0, 1, 0, -0.995846, 0, -0.0910497, 5, 0, 0)
 
-[node name="plains_small_house_6" parent="." instance=ExtResource("9_rxpdv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -15)
-
 [node name="coins" parent="." instance=ExtResource("9_fno42")]
 transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -11, 0.2, 0)
 
 [node name="coins5" parent="." instance=ExtResource("10_477ww")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.4, 8.08116)
-
-[node name="oak_tree_normal" parent="." instance=ExtResource("11_r00kk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.1685, 0.5, -8.77208)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)

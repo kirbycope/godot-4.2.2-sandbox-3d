@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://sfmvvh0w00ke"]
+
+[ext_resource type="Texture2D" uid="uid://d384d8stds20" path="res://assets/minecraft/textures/obsidian.png" id="1_n2rg3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q5wnr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uu1ct"]
+albedo_texture = ExtResource("1_n2rg3")
+uv1_offset = Vector3(0.4, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_4fajy"]
+material = SubResource("StandardMaterial3D_uu1ct")
+
+[node name="obsidian" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_q5wnr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_4fajy")
