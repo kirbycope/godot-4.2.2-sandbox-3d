@@ -1,3 +1,6 @@
+![Godot 4.2.2](/godot-4.2.2-sandbox-3d.png)
+
+
 # godot-4.2.2-sandbox-3d
 A 3D sandbox for version 4.2.2 of the Godot Engine.
 
