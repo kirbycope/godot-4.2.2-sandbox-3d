@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="input-event-handler"
-run/main_scene="res://scenes/main.tscn"
+config/name="godot-4.2.2-sandbox-3d"
+run/main_scene="res://scenes/client.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 

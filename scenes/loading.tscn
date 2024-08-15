@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://b058ldje0fpht"]
+
+[ext_resource type="Texture2D" uid="uid://bm6d55gnh87nn" path="res://assets/minecraft/textures/dirt.png" id="1_u1w6a"]
+[ext_resource type="FontFile" uid="uid://bfa1uidgd5ruo" path="res://assets/fonts/minecraftia/Minecraftia-Regular.ttf" id="2_gvbt6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ep7o"]
+albedo_texture = ExtResource("1_u1w6a")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qdmns"]
+material = SubResource("StandardMaterial3D_2ep7o")
+size = Vector2(16, 9)
+orientation = 2
+
+[node name="Loading" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 4)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_qdmns")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+text = "Loading..."
+font = ExtResource("2_gvbt6")

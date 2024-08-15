@@ -15,3 +15,4 @@ func _on_area_3d_body_entered(body):
 	if body is CharacterBody3D:
 		# Switch to the specified scene 
 		get_tree().change_scene_to_file("res://scenes/minecraft/minecraft.tscn")
+		

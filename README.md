@@ -1,5 +1,5 @@
-# input-event-handler
-An input event handler for Godot 4.
+# godot-4.2.2-sandbox-3d
+A 3D sandbox for version 4.2.2 of the Godot Engine.
 
 ## Assets
 Jumping Points
@@ -10,3 +10,4 @@ Jumping Points
 Prototype Textures - https://kenney.nl/assets/prototype-textures</br>
 Model - https://www.mixamo.com/#/?query=Y+Bot&type=Character</br>
 Model Animations - https://www.mixamo.com/#/?query=Action+Adventure+Pack&type=Motion%2CMotionPack</br>
+Model and Animations Combiner - https://nilooy.github.io/character-animation-combiner/
