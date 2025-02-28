@@ -2,7 +2,7 @@
 
 
 # godot-4.2.2-sandbox-3d
-A 3D sandbox for version 4.2.2 of the Godot Engine.
+A 3D sandbox for v4.2.2 of the Godot game engine.
 
 ## Assets
 Jumping Points
